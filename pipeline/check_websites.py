@@ -16,10 +16,10 @@ Polite by design: an honest user agent, one request at a time per host, and thre
 80%+ one brand). Shared hosts (Square, Wix, Linktree, Instagram) carry many unrelated places, so every link there is checked on its own.
 Never bypasses bot protection.
 
-Copied from co-eats (location rules) with wi-eats' injection.py hacked-page detector (planted casino/adult links).
-Usage: ../.venv/bin/python check_websites.py   (reads data/oh/website_candidates.json) → data/oh/website_check.json
+Copied from wi-eats/pipeline/check_websites.py.
+Usage: ../.venv/bin/python check_websites.py [--recheck-ok] [--retry-transient]   (reads data/oh/website_candidates.json) → data/oh/website_check.json
 ({url: {"ok": bool, "why": str, "final": str, "ship": str, "at": "YYYY-MM-DD", "v": RULES}})
-The app export (michigan.py, OH_APP=1) drops every link that isn't ok and ships "ship" (https when the site answers on https).
+The app export (ohio.py, OH_APP=1) drops every link that isn't ok and ships "ship" (https when the site answers on https).
 A verdict is reused for MAX_AGE days at most, and never across a change of the rules (RULES): a domain can be hijacked after it passed.
 Re-run before each App Store submission.
 """
@@ -34,18 +34,20 @@ import unicodedata
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
+import sys
+
 import requests
 
-import injection
+import injection   # hijacked-page detector, ported from wi-eats (QA 2026-10-19, P1 #4)
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = f"{ROOT}/data/oh/website_check.json"
-UA = "MichiganEatsLinkCheck/1.0 (+https://michigan.eatsranked.com/; nick@eatsranked.com)"
-RULES = 2          # bump when a rule changes: every cached verdict is checked again
+UA = "OhioEatsLinkCheck/2.0 (+https://ohio.eatsranked.com/; nick@eatsranked.com)"
+RULES = 3          # bump when a rule changes: every cached verdict is checked again
 MAX_AGE = 45       # days a verdict is trusted
 GENERIC = set("""the and of a an at on in restaurant restaurants bar bars grill grille cafe caffe coffee pizza pizzeria pub tavern house
-inn lounge kitchen bistro eatery diner bakery deli market express food foods co company inc llc ltd corp michigan mi
-houston dallas austin antonio paso worth springs family original new old north south east west st saint mt sports place spot shop shoppe taproom brewing brewery
+inn lounge kitchen bistro eatery diner bakery deli market express food foods co company inc llc ltd corp ohio oh
+columbus cincinnati cleveland toledo akron dayton springs family original new old north south east west st saint mt sports place spot shop shoppe taproom brewing brewery
 tap taps bbq barbecue burger burgers chicken subs sub sandwich sandwiches tacos taco mexican chinese thai sushi asian italian
 american cuisine catering events""".split())
 # Hijacked domains carry Indonesian slot and lottery spam, Turkish betting pages or porn links: any of these marks a page.
@@ -76,9 +78,8 @@ BAD_HOSTS = ("business.site", "negocio.site", "google.com", "goo.gl", "g.co/", "
              "toasttab.com/local", "linktr.ee", "homesnap.com", "vrbo.com", "airbnb.", "expedia.", "booking.com", "hotels.com",
              "preview=true", "insitepreview", "editor.wix.com", "sites.google.com/view/untitled")
 # news and magazines write about a place; a story is never its website (one shipped as an RT article about a giveaway)
-NEWS = ("freep.com", "mlive.com", "detroitnews.com", "metrotimes.com", "hourdetroit.com", "crainsdetroit.com", "clickondetroit.com", "fox2detroit.com", "wxyz.com", "wzzm13.com", "woodtv.com", "record-eagle.com", "michiganradio.org", "bridgemi.com", "bridgedetroit.com", "lansingstatejournal.com", "texasmonthly.com", "chron.com", "houstonchronicle.com", "dallasnews.com", "star-telegram.com", "expressnews.com", "mysanantonio.com",
-        "statesman.com", "austinchronicle.com", "elpasotimes.com", "dallasobserver.com", "houstonpress.com", "culturemap.com", "khou.com",
-        "kxan.com", "wfaa.com", "ksat.com", "kens5.com", "texastribune.org", "westword.com", "eater.com", "dailycamera.com", "denverpost.com", "5280.com", "coloradoan.com", "gazette.com", "rt.com",
+NEWS = ("dispatch.com", "cincinnati.com", "cleveland.com", "toledoblade.com", "daytondailynews.com", "beaconjournal.com", "vindy.com", "cantonrep.com", "wcpo.com", "wlwt.com", "fox19.com", "wkyc.com", "news5cleveland.com", "fox8.com", "nbc4i.com", "10tv.com", "wsyx6.com", "abc6onyourside.com", "columbusmonthly.com", "columbusunderground.com", "cincinnatimagazine.com", "clevelandmagazine.com", "citybeat.com", "clevescene.com", "ohiomagazine.com", "wosu.org", "wvxu.org", "ideastream.org", "signalcleveland.org", "cincinnatirefined.com", "614now.com", "daytonlocal.com", "whio.com", "wdtn.com", "wtol.com", "13abc.com", "wkbn.com", "wfmj.com", "wyso.org",
+        "westword.com", "eater.com", "dailycamera.com", "denverpost.com", "5280.com", "coloradoan.com", "gazette.com", "rt.com",
         "chieftain.com", "gjsentinel.com", "summitdaily.com", "vaildaily.com", "aspentimes.com", "aspendailynews.com", "steamboatpilot.com",
         "durangoherald.com", "postindependent.com", "timescall.com", "reporterherald.com", "greeleytribune.com", "coloradosun.com",
         "denverite.com", "cpr.org", "9news.com", "kdvr.com", "thedenverchannel.com", "koaa.com", "krdo.com", "kktv.com", "cbsnews.com",
@@ -168,7 +169,7 @@ def label(url):
 
 
 SUFFIXES = ("", "co", "company", "inc", "llc", "restaurant", "restaurants", "bar", "grill", "cafe", "pizza", "pizzeria", "kitchen", "eatery",
-            "bbq", "tavern", "pub", "coffee", "foods", "deli", "bakery", "brewing", "brewery", "wines", "winery", "online", "michigan", "mi")
+            "bbq", "tavern", "pub", "coffee", "foods", "deli", "bakery", "brewing", "brewery", "wines", "winery", "online", "ohio", "oh")
 
 
 def spells_name(url, name):
@@ -235,11 +236,12 @@ def check(url, ctx):
         return {"ok": False, "why": f"http {r.status_code}", "final": final}
     text = BLOBS.sub(" ", body).lower()
     head = " ".join(a or b for a, b in HEAD.findall(text[:60_000]))
-    casino = CASINO_PLACE.search(name) or CASINO_PLACE.search(urllib.parse.urlparse(final).netloc)
-    if SPAM.search(text) or SPAM.search(final) or (not casino and (BETTING.search(head) or len(BETTING.findall(text)) >= 2)):
+    # a casino by its name or its own host, never by where a (maybe taken-over) domain redirects (wi-eats)
+    casino = CASINO_PLACE.search(name) or CASINO_PLACE.search(host) or injection.CASINO_HOSTS_OK.search(host)
+    if SPAM.search(text) or SPAM.search(final) or (not casino and (BETTING.search(head) or len(injection.BETTING_PROSE.findall(text)) >= 2)):
         return {"ok": False, "why": "gambling or adult content", "final": final}
     # planted links and spam (casino, betting, adult, pharma, link farms; visible, hidden or off-screen): injection.py
-    reasons = injection.scan(body, urllib.parse.urlparse(final).netloc, final, name)
+    reasons = injection.scan(body, host, final, name, casino=bool(casino))
     if reasons:
         rule, evidence = reasons[0]
         return {"ok": False, "why": "hacked: " + rule, "final": final, "evidence": evidence[:300]}
@@ -293,8 +295,19 @@ def save(results, indent=None):
     os.replace(OUT + ".tmp", OUT)
 
 
+
+def safe_check(*item):
+    """check(), stamped with the day it ran ("rc": --recheck-ok skips pages already re-checked in the last 2 days, so a stopped run
+    resumes), and never raising: one malformed page must not stop a run of thousands."""
+    try:
+        res = check(*item)
+    except Exception as e:
+        res = {"ok": False, "why": "error: " + type(e).__name__, "final": item[0]}
+    return {**res, "rc": __import__("datetime").date.today().isoformat()}
+
+
 def main():
-    # every link the export considered (written by michigan.py, OH_APP=1), so a link dropped last time gets another chance
+    # every link the export considered (written by ohio.py, OH_APP=1), so a link dropped last time gets another chance
     cands = json.load(open(f"{ROOT}/data/oh/website_candidates.json"))
     jobs = collections.defaultdict(list)   # registered domain -> [(url, name)]
     ctx_of = {w: (c if isinstance(c, dict) else {"name": c}) for w, c in cands.items()}
@@ -308,6 +321,12 @@ def main():
     prev = {u: v for u, v in prev.items() if not v["why"].startswith(("chain domain", "brand's own"))
             and v["why"] not in ("moved to another domain", "gambling or adult content", "page doesn't show the place's town, address or phone")
             and v.get("v") == RULES and v.get("at", "") >= oldest}
+    if "--recheck-ok" in sys.argv:   # fetch every passing page again (after a new rule, and before each submission); resumable
+        since = (__import__("datetime").date.today() - __import__("datetime").timedelta(days=2)).isoformat()
+        prev = {u: v for u, v in prev.items() if not v["ok"] or v.get("rc", "") >= since}
+    prev = {u: v for u, v in prev.items() if not v["why"].startswith("hacked")}   # injection.py's rules keep growing
+    if "--retry-transient" in sys.argv:   # after a busy run: fetch again what was rate-limited (429) or failed to connect
+        prev = {u: v for u, v in prev.items() if not (v["why"] == "http 429" or v["why"].startswith("error:"))}
     todo, chain_hosts, brand_of = [], {}, {}
     for dom, items in jobs.items():
         uniq = list(dict.fromkeys(items))
@@ -330,11 +349,7 @@ def main():
 
     def run(item):
         nonlocal done
-        try:
-            verdict = check(*item)
-        except ValueError as e:   # a malformed URL on the page or in the listing: dropped, never a crash of the whole run
-            verdict = {"ok": False, "why": "error: " + type(e).__name__, "final": item[0]}
-        res = {**verdict, "at": TODAY, "v": RULES}
+        res = {**safe_check(*item), "at": TODAY, "v": RULES}
         with lock:
             results[item[0]] = res
             done += 1
@@ -342,7 +357,7 @@ def main():
                 print(f"  {done}/{len(todo)}", flush=True)
                 save(results)
 
-    with ThreadPoolExecutor(max_workers=24) as ex:
+    with ThreadPoolExecutor(max_workers=int(os.environ.get("CHECK_WORKERS") or 0) or 24) as ex:
         list(ex.map(run, todo))
     for dom, urls in chain_hosts.items():
         samples = [results.get(u) for u in urls[:3] if results.get(u)]

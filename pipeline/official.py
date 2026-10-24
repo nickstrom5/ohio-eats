@@ -107,16 +107,23 @@ def _zip(z):
     return z[:5] if len(z) >= 5 else ""
 
 
+# school, hospital and institutional kitchens: never a restaurant, whatever else the name says
 OTHER = re.compile(r"\((?:MOBILE|MOBILE UNIT|COMMISSARY|CATERING|SPECIAL EVENT|TEMP(?:ORARY)? EVENT)\)|\b(?:SCHOOLS?|ELEMENTARY|ELEM|MIDDLE SCHOOL|"
                    r"HIGH SCHOOL|ACADEMY|PRESCHOOL|CHILDCARE|CHILD CARE|CHILD DEVELOPMENT|DAYCARE|DAY CARE|HEADSTART|HEAD START|HOSPITAL|JAIL|"
-                   r"DETENTION|CORRECTIONAL|JUV COURT|YOUTH CTR|FOOD BANK|SENIOR|NURSING|MOBILE|FOOD TRUCK|CATERING|CATERER|COMMISSARY|"
-                   r"CONCESSIONS?|BOOSTERS?|PTA|PTO|BOARD OF EDUCATION|PUBLIC SCHOOLS|LITTLE LEAGUE|ATHLETIC ASSOCIATION|SNACK SHACK|CAMP|"
-                   r"PORTABLE|STAND \d+|FRATERNITY|SORORITY|APARTMENTS?|APTS|RECREATION CENTER|REC CENTER|BOAT RAMP|SWIM CLUB|POOL)\b", re.I)
+                   r"DETENTION|CORRECTIONAL|JUV COURT|YOUTH CTR|FOOD BANK|SENIOR|NURSING|BOARD OF EDUCATION|PUBLIC SCHOOLS|PTA|PTO|"
+                   r"PORTABLE|STAND \d+|FRATERNITY|SORORITY|APARTMENTS?|APTS|RECREATION CENTER|REC CENTER|BOAT RAMP|SWIM CLUB|"
+                   r"SUMMER CAMP|DAY CAMP)\b", re.I)
+# words that usually mean a truck, caterer or stand, unless the name also says it's a place to eat ("Camp Washington Chili" is a
+# chili parlor in the Camp Washington neighborhood; "Sorrento's Pizza & Catering" is a pizzeria)
+OTHER_SOFT = re.compile(r"\b(?:MOBILE|FOOD TRUCK|CATERING|CATERER|COMMISSARY|CONCESSIONS?|BOOSTERS?|LITTLE LEAGUE|ATHLETIC ASSOCIATION|"
+                        r"SNACK SHACK|POOL)\b", re.I)
+FOODY = re.compile(r"\b(?:RESTAURANT|CAFE|CAFFE|GRILL|GRILLE|KITCHEN|PIZZA|PIZZERIA|CHILI|TAVERN|PUB|BAR|DINER|BISTRO|EATERY|BBQ|DELI|"
+                   r"BAKERY|COFFEE|TACOS?|TAQUERIA|BURGERS?|WINGS|SUSHI|STEAK\w*|SALOON|INN|SPORTS BAR|BREWING|BREWERY)\b", re.I)
 
 
 def _row(jur, lic, name, addr, city, z, la, lo, kind, active=True, ltype=None, holder=None, county=None, lhd=None, status=None):
     num, st = street_key(addr)
-    if OTHER.search(name or ""):
+    if OTHER.search(name or "") or (OTHER_SOFT.search(name or "") and not FOODY.search(name or "")):
         kind = "other"
     return {"jur": jur, "lic": lic, "name": name, "dba": name, "holder": holder, "keys": _names(name), "addr": addr, "city": city,
             "zip": _zip(z), "num": num, "street": st, "lat": la, "lon": lo, "kind": kind, "active": active, "ltype": ltype,

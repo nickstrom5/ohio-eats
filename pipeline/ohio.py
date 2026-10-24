@@ -1236,8 +1236,9 @@ print("tags:", {t_: int(o["t_" + t_].sum()) for t_ in TAGS})
 # ---------------------------------------------------------------- inspections: each city's own result, never a grade of ours
 # Cincinnati (official.cincinnati_visits): the City's result for each visit since its 2024 system change, with the number of violations
 # cited on that visit. A routine inspection can take several visits (a first visit "Not In Compliance", a follow-up "Approved - Violations
-# Abated"): the place shows its latest routine inspection's latest result, the violations cited on that inspection's first visit, and the
-# date of that latest visit. Complaint visits stay in the history only.
+# Abated"): the place shows its latest routine visit, with that visit's own result, count and date, so a result a later visit cleared is
+# never shown as current (Chicago's "Failed latest" lesson) and the count always belongs to the result beside it. Every visit, first
+# visits included, is in the history. Complaint visits stay in the history only.
 # Columbus: Columbus Public Health's own status per permit ("Standards Met", "Under Enforcement", "Closed for Violation"), as of the day
 # we read the layer; it publishes no dates or counts in bulk (each permit's history is on the City's inspection site).
 VIS = official.cincinnati_visits()
@@ -1267,19 +1268,20 @@ for off_, b, k, st_ in zip(o.off, o.biz, o.k, o.street):
         g = max((VIS_BY[x] for x in cin), key=len)
         rout = g[g.typ.eq("ROUTINE")]
         if len(rout):
-            last_i = rout.iloc[-1].insp
-            ins = rout[rout.insp == last_i]
-            first, last = ins.iloc[0], ins.iloc[-1]
-            hist = [[r_.d, r_.res, int(r_.n), (r_.typ.title() + " · " + r_.sub.title()) if isinstance(r_.sub, str) else r_.typ.title()]
-                    for r_ in g.itertuples()][::-1]
-            rec = [last.res, int(first.n), last.d, first.sub.title() if isinstance(first.sub, str) else "Routine", int(rout.insp.nunique()),
-                   int(sum(r_ in LOW for r_ in rout.res)), 0, hist, list(first.codes)[:40], "cin", None]
+            last = rout.iloc[-1]
+            hist = [[r_.d, r_.res, int(r_.n), (r_.typ.title() + " · " + r_.sub.title()) if isinstance(r_.sub, str) and r_.sub != r_.typ
+                     else r_.typ.title()] for r_ in g.itertuples()][::-1]
+            rec = [last.res, int(last.n), last.d, last.sub.title() if isinstance(last.sub, str) else "Routine", int(rout.insp.nunique()),
+                   int(sum(r_ in LOW for r_ in rout.res)), 0, hist, list(last.codes)[:40], "cin", None]
     if rec is None and col:
         x = col[0]
         rec = [F_status[x], 0, official.COL_DATE, "Status", 0, 0, 0, None, None, "col", F_link.get(x)]
     recs.append(rec or [None] * len(cols_i))
 o[cols_i] = pd.DataFrame(recs, index=o.index, columns=cols_i)
 INS_THROUGH = {"cin": official.CIN_THROUGH, "col": official.COL_DATE}
+# Columbus's per-permit history pages (decadeonline.com) never answered our scripts or the browser pane (2026-10-24): an "official
+# records" link has to open a page that renders, so they stay out until one is checked by hand
+COL_LINKS_OK = False
 print("places with inspection results:", o.in_jur.value_counts().to_dict(), "| latest:", o.in_res.value_counts().to_dict(),
       "| records through", INS_THROUGH)
 
@@ -1595,7 +1597,7 @@ if APP:
             p["in"] = [INSJ.index(x.in_jur), RES.index(x.in_res), int(x.in_pts), x.in_date]
             if x.in_jur == "cin":
                 dt_["in"] = {"n": int(x.in_n), "h": [[d, RES.index(b_), int(sc), ITYPES.index(t_)] for d, b_, sc, t_ in x.in_hist[:8]]}
-            elif isinstance(x.in_link, str):
+            elif isinstance(x.in_link, str) and COL_LINKS_OK:
                 dt_["in"] = {"link": x.in_link}
         if p["la"] != p["la"] or p["lo"] != p["lo"]:
             nan_keys["no coordinates (skipped)"] += 1
@@ -1678,7 +1680,7 @@ for i, x in o.iterrows():
     if isinstance(x.in_res, str):
         if x.in_hist: e["insp"] = x.in_hist[:8]
         if x.in_items: e["items"] = x.in_items
-        if isinstance(x.in_link, str): e["insp_link"] = x.in_link
+        if isinstance(x.in_link, str) and COL_LINKS_OK: e["insp_link"] = x.in_link
     if e:
         extra[i] = e
 nv = o[~o.venue]
