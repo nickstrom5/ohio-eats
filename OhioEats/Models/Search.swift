@@ -22,8 +22,18 @@ struct Search {
     /// Lowercase, no accents or apostrophes, "&" as "and" ("B&B" stays "bb"), everything else a single space.
     /// One pass over the characters instead of three regular expressions: it runs four times per place at launch
     /// (testNormalizeMatchesTheRegexVersion keeps it equal to the regex version on every bundled name and address).
+    private static let unaccented: [Unicode.Scalar: String] = ["ø": "o", "æ": "ae", "œ": "oe", "đ": "d", "ł": "l", "ß": "ss", "þ": "th", "ı": "i"]
+
     static func normalize(_ s: String) -> String {
         var t = s.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .init(identifier: "en_US")).lowercased()
+        // letters with no accent to strip (folding keeps them): "orchard" must find Ørchard Bar & Table
+        if t.unicodeScalars.contains(where: { Self.unaccented[$0] != nil }) {
+            var folded = ""
+            for c in t.unicodeScalars {
+                if let plain = Self.unaccented[c] { folded += plain } else { folded.unicodeScalars.append(c) }
+            }
+            t = folded
+        }
         if t.contains("&") {
             t = t.replacingOccurrences(of: #"\b([a-z0-9])\s*&\s*([a-z0-9])\b"#, with: "$1$2", options: .regularExpression)
             t = t.replacingOccurrences(of: "&", with: " and ")

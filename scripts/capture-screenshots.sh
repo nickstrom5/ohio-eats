@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Captures every -screenshot screen from an already-booted simulator with Michigan Eats installed.
+# Captures every -screenshot screen from an already-booted simulator with Ohio Eats installed.
 # Usage: bash scripts/capture-screenshots.sh "<simulator name or UDID>" [screen ...]
 # PNGs go to docs/screenshots/<prefix><screen>.png, where PREFIX (default empty) lets iPhone and
 # iPad runs sit side by side, e.g. PREFIX=ipad- for the 13-inch iPad set.
@@ -9,19 +9,19 @@ set -euo pipefail
 DEVICE="${1:?simulator name or UDID}"
 shift
 SCREENS=("$@")
-[ ${#SCREENS[@]} -gt 0 ] || SCREENS=(home coney pizza pasty detail map honors oldest saved about)
+[ ${#SCREENS[@]} -gt 0 ] || SCREENS=(home chili pizza pierogi detail map honors oldest saved about)
 OUT="${OUT:-$(cd "$(dirname "$0")/.." && pwd)/docs/screenshots}"
 PREFIX="${PREFIX:-}"
 WAIT="${SLEEP:-6}"
 MIN_BYTES=120000
 mkdir -p "$OUT"
-# Screenshot mode pins the location to downtown Detroit, so the system permission alert is never wanted here.
-xcrun simctl privacy "$DEVICE" revoke location com.michiganeats.ios >/dev/null 2>&1 || true
+# Screenshot mode pins the location (downtown Cincinnati, Dayton or Cleveland), so the system permission alert is never wanted here.
+xcrun simctl privacy "$DEVICE" revoke location com.ohioeats.ios >/dev/null 2>&1 || true
 xcrun simctl status_bar "$DEVICE" override --time 9:41 --batteryState discharging --batteryLevel 100 --wifiBars 3 --cellularBars 4 >/dev/null 2>&1 || true
 for s in "${SCREENS[@]}"; do
   f="$OUT/$PREFIX$s.png"
   for attempt in 1 2 3 4; do
-    xcrun simctl launch --terminate-running-process "$DEVICE" com.michiganeats.ios -screenshot "$s" >/dev/null
+    xcrun simctl launch --terminate-running-process "$DEVICE" com.ohioeats.ios -screenshot "$s" >/dev/null
     sleep $((WAIT + (attempt - 1) * 4))
     xcrun simctl io "$DEVICE" screenshot "$f" >/dev/null 2>&1
     size=$(stat -f%z "$f" 2>/dev/null || stat -c%s "$f")

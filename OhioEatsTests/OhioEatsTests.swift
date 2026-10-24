@@ -132,6 +132,12 @@ final class OhioEatsTests: XCTestCase {
         XCTAssertEqual(m.list(.all, sort: .name, search: "saint clairsville", here: nil).map(\.name), ["Belmont Diner"], "St. and Saint are one town")
     }
 
+    /// Letters folding can't strip an accent from still match their plain spelling: "orchard" finds Ørchard Bar & Table (Columbus).
+    func testSearchFoldsLettersWithoutAccents() {
+        XCTAssertEqual(Search.normalize("Ørchard Bar & Table"), "orchard bar and table")
+        XCTAssertEqual(Search.normalize("Brutø Æble Phở Đô Łódź Straße"), "bruto aeble pho do lodz strasse")
+    }
+
     func testOutsideOhioUsesTheOutline() {
         func inside(_ la: Double, _ lo: Double) -> Bool { OhioOutline.contains(CLLocationCoordinate2D(latitude: la, longitude: lo)) }
         XCTAssertTrue(inside(39.10, -84.51), "Cincinnati"); XCTAssertTrue(inside(39.96, -83.00), "Columbus"); XCTAssertTrue(inside(41.50, -81.69), "Cleveland")

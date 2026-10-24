@@ -81,6 +81,14 @@ GUIDES = {
   ("Mary Yoder's Amish Kitchen", "Middlefield", "14743", "Old-fashioned Amish cooking in Geauga County's Amish settlement.", None, None, ["https://www.maryyodersamishkitchen.com/"], "site"),
   ("Amish Door", "Wilmot", "1210", "Began in 1977 as a 48-seat restaurant; a daily buffet and bakery (its own site).", None, None, ["https://www.amishdoor.com/"], "site"),
  ],
+ "oldest": [
+  ("Golden Lamb", "Lebanon", "27", "Calls itself Ohio's oldest inn and restaurant (its own site): on Broadway since Jonas Seaman licensed his tavern here in 1803; 2026 marks 100 years of family ownership.",
+   1803, "Its own history: Seaman's 1803 license was for a tavern on Broadway; the present brick building dates to 1815.",
+   [OM_OLD, "https://www.goldenlamb.com/about-us/our-story/", "https://www.goldenlamb.com/"], "dated"),
+  ("Ye Olde Trail Tavern", "Yellow Springs", "228", "“Ohio's oldest tavern” (its own site): the hand-hewn 1827 log tavern is still the rear dining room.", 1827,
+   "Its own history: Elisha and William Mills built the log tavern in 1827; a house moved onto the lot around 1847 became the front.",
+   [OM_OLD, "https://www.oldetrailtavern.com/about", "https://oldetrailtavern.com/"], "dated"),
+ ],
  "ohio pizza": [
   ("Marion's Piazza", None, None, "Thin-crust, square-cut “Dayton-style” pizza (its own menu), established 1965.", None, None, ["https://www.marionspiazza.com/"], "site"),
   ("Rubino's Pizza", "Columbus", "2643", "Columbus-style thin crust in Bexley since 1954 (its own site); cash only.", None, None, [OM_PIZZA, "https://www.rubinosofbexley.com/"], "site"),
@@ -91,7 +99,10 @@ GUIDES = {
 }
 # kinds as ohio.py's tag rules read them
 KIND = {"cincinnati chili": "cincinnati chili", "goetta": "goetta", "eastern european": "eastern european", "barberton chicken": "barberton chicken",
-        "hungarian": "hungarian hot dog", "lake erie perch": "lake erie perch", "amish": "amish", "ohio pizza": "ohio pizza"}
+        "hungarian": "hungarian hot dog", "lake erie perch": "lake erie perch", "amish": "amish", "ohio pizza": "ohio pizza", "oldest": "oldest"}
+# places the map data doesn't hold as a place to eat (a hotel's dining room): placed from the street address the source gives (ohio.py
+# puts it on Overture's own listing of the business, an address point or the Census geocoder)
+ADDR = {"Golden Lamb": ("27 S Broadway", "45036")}
 # a chain the guide lists everywhere it's found in our data (its own site lists the locations)
 EVERY = {"Marion's Piazza", "Wedgewood Fernando's Pizza"}
 
@@ -151,6 +162,11 @@ for kind, rows in GUIDES.items():
         if len(hits) > 1 and name not in EVERY:
             lic = [i for i in hits if C["tier"][i] == 2]
             hits = lic if len(lic) == 1 else hits
+        if not hits and name in ADDR and ev == "dated":
+            a_, z_ = ADDR[name]
+            out.append({"name": name, "address": a_, "city": town, "zip": z_, "kinds": [KIND[kind]], "dishes": [], "note": note, "founded": founded,
+                        "founded_note": fnote, "website": None, "open": True, "evidence_date": "2026", "sources": srcs, "match_names": []})
+            continue
         if not hits or (len(hits) > 1 and name not in EVERY):
             leads.append(f"- {kind}: {name} ({town or 'every location'}{', ' + num if num else ''}) — {len(hits)} matches in our data; not added"); continue
         for i in hits:
@@ -177,10 +193,11 @@ json.dump(CLOSED, open(f"{R}/closed.json", "w"), indent=1, ensure_ascii=False)
 open(f"{R}/app/LEADS.md", "w").write("# Ohio research leads (not yet verified)\n\nWritten by pipeline/build_research.py.\n\n" + "\n".join(leads) + """
 
 ## Not yet checked (the session's web tools hit their limit on 2026-10-24)
-- Oldest places from Ohio Magazine's “Eat at 15 of Ohio's Oldest Restaurants” (Mar/Apr 2026): The Golden Lamb (Lebanon, 1803), Arnold's
-  (Cincinnati, 1861), Bun's (Delaware, 1864), Ringside Cafe (Columbus, 1897), Bender's Tavern (Canton, 1902), The Saratoga (Warren, 1916),
-  Guarino's (Cleveland, 1918), Kewpee (Lima, 1928), White Oaks (Westlake, 1928), TAT (Columbus, 1929), Ye Olde Trail Tavern (Yellow
-  Springs, 1827). Each needs a source saying it opened at its current address before a founding year is shown. Sunrise Inn (Warren, 1929):
+- Oldest places from Ohio Magazine's “Eat at 15 of Ohio's Oldest Restaurants” (Mar/Apr 2026): Arnold's (Cincinnati, 1861: its
+  history page says the same room, but m.arnoldsbarandgrill.com doesn't answer our check), Bun's (Delaware, 1864), Ringside Cafe (Columbus,
+  1897), Bender's Tavern (Canton, 1902), The Saratoga (Warren, 1916; its site says 106 years), Guarino's (Cleveland, 1918; site footer 2019),
+  Kewpee (Lima, 1928), White Oaks (Westlake, 1928), TAT (Columbus, 1929). Their sites give founding years but not that they opened at this
+  address, so no founding year is shown yet. The Golden Lamb and Ye Olde Trail Tavern are on the list (their own histories). Sunrise Inn (Warren, 1929):
   its site robots-blocks Claude. Spread Eagle (1837) and The Spot (1907) moved or closed in between: no founding year.
 - Goetta: Sugar n' Spice, Taste of Belgium, Sleepy Bee Cafe, Half Day Cafe, Camp Washington's 513-Way (CityBeat roundups, older): need a
   2025-26 page naming the goetta dish. Glier's and Eckerlin Meats are makers, not restaurants.

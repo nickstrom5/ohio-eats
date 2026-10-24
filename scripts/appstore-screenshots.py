@@ -1,35 +1,35 @@
 #!/usr/bin/env python3
 """Build the captioned App Store screenshots from simulator captures (the family's frame, from chi-eats/ios/scripts/appstore-screenshots.py).
 
-Usage (from mi-eats/): .venv/bin/python scripts/appstore-screenshots.py
+Usage (from oh-eats/): .venv/bin/python scripts/appstore-screenshots.py
 Reads playbook/app-store/raw/iphone/*.png (1320x2868, iPhone 17 Pro Max) and playbook/app-store/raw/ipad/*.png (2064x2752, iPad Pro 13"),
 made with: OUT=$PWD/playbook/app-store/raw/<iphone|ipad> SLEEP=14 bash scripts/capture-screenshots.sh <udid> <screens>
 (the map needs about 20 s on a busy Mac). Writes playbook/app-store/iphone/NN-name.png and .../ipad/NN-name.png at the same sizes.
-Each frame: the shore tint behind, a deep-lake caption band with white condensed type and a short sand rule (the shoreline band's
-colours), and the real capture below in a rounded frame.
-Rules (STATE_EATS_PLAYBOOK.md "Screenshots"): real captures, home screen first, no negative board and no place whose latest Detroit result
-is "Not in compliance" in any image (screenshot mode uses American Coney Island, not Lafayette, for that reason), map zoomed in to
-individual pins; captions make no price claim ("free"), use no third-party marks (say "award winners", not James Beard) and no "best".
+Each frame: the cream page tint behind, a chocolate caption band with white condensed type and a short peanut-butter rule (the
+buckeye palette), and the real capture below in a rounded frame.
+Rules (STATE_EATS_PLAYBOOK.md "Screenshots"): real captures, home screen first, no negative board and no place whose latest Cincinnati
+result is "Not In Compliance" (or Columbus status "Under Enforcement" or "Closed for Violation") in any image (a unit test checks the
+screenshot picks), map zoomed in to individual pins; captions make no price claim ("free"), use no third-party marks (say "award winners", not James Beard) and no "best".
 """
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-LAKE, SAND, BG, WHITE, INK = (13, 63, 99), (227, 213, 174), (246, 243, 235), (255, 255, 255), (12, 29, 42)
+LAKE, SAND, BG, WHITE, INK = (59, 35, 20), (217, 164, 91), (251, 246, 239), (255, 255, 255), (36, 22, 12)   # chocolate, peanut butter, cream
 FONT = "/System/Library/Fonts/Avenir Next Condensed.ttc"   # Heavy face; the app itself uses the system compressed face
 
-IPHONE = [("01-home", "home.png", "Michigan's food, list by list"),
-          ("02-coneys", "coney.png", "Coney islands, nearest first"),
+IPHONE = [("01-home", "home.png", "Ohio's food, list by list"),
+          ("02-chili", "chili.png", "Chili parlors, nearest first"),
           ("03-detail", "detail.png", "Each place, with notes checked by hand"),
-          ("04-pizza", "pizza.png", "Detroit-style square pizza"),
-          ("05-pasties", "pasty.png", "Pasty shops across the U.P."),
+          ("04-pizza", "pizza.png", "Ohio's own pizza styles"),
+          ("05-pierogi", "pierogi.png", "Pierogi and Cleveland classics"),
           ("06-map", "map.png", "Hand-checked places on the map"),
           ("07-honors", "honors.png", "Award winners and classics"),
           ("08-saved", "saved.png", "Keep your short list")]
-IPAD = [("01-home", "home.png", "Michigan's food, list by list"),
-        ("02-coneys", "coney.png", "Coney islands, nearest first"),
-        ("03-pizza", "pizza.png", "Detroit-style square pizza"),
-        ("04-pasties", "pasty.png", "Pasty shops across the U.P."),
+IPAD = [("01-home", "home.png", "Ohio's food, list by list"),
+        ("02-chili", "chili.png", "Chili parlors, nearest first"),
+        ("03-pizza", "pizza.png", "Ohio's own pizza styles"),
+        ("04-pierogi", "pierogi.png", "Pierogi and Cleveland classics"),
         ("05-map", "map.png", "Hand-checked places on the map"),
         ("06-honors", "honors.png", "Award winners and classics")]
 BANNED = ("free", "best", "#1", "top ", "james beard", "michelin")   # price claims, rankings and others' marks stay out of captions

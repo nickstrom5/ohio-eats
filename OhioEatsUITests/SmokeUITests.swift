@@ -4,7 +4,7 @@ import CoreLocation
 /// Taps through every screen and control a reviewer is likely to touch, on iPhone (tabs) and iPad (split view).
 /// Pass = nothing crashes and each screen shows what it should. Slow (network place cards, map tiles), so CI runs
 /// only the unit tests; run this before every App Store submission:
-/// xcodebuild test -scheme MichiganEats -only-testing:MichiganEatsUITests -destination 'id=<sim>'
+/// xcodebuild test -scheme OhioEats -only-testing:OhioEatsUITests -destination 'id=<sim>'
 final class SmokeUITests: XCTestCase {
     private var app: XCUIApplication!
 
@@ -25,7 +25,7 @@ final class SmokeUITests: XCTestCase {
         app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", text)).firstMatch
     }
 
-    /// A Home guide card. "Surprise me with a Michigan classic" is excluded so a title can't match it.
+    /// A Home guide card. "Surprise me with an Ohio classic" is excluded so a title can't match it.
     private func guideCard(_ title: String) -> XCUIElement {
         app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@ AND NOT (label CONTAINS[c] 'Surprise')", title)).firstMatch
     }
@@ -99,16 +99,16 @@ final class SmokeUITests: XCTestCase {
     private func fresh() {
         app.terminate()
         app.launch()
-        waitFor(text(containing: "Coneys, Pasties & Square Pizza"), 15, "home header")
+        waitFor(text(containing: "Chili, Pierogi & Pizza"), 15, "home header")
     }
 
     func testTourEveryScreen() throws {
         if isPad { try padTour(); return }
-        waitFor(text(containing: "Coneys, Pasties & Square Pizza"), 15, "home header")
+        waitFor(text(containing: "Chili, Pierogi & Pizza"), 15, "home header")
 
-        // Coney Islands: sort, filters, search
-        guideCard("Coney Islands").tap()
-        waitFor(app.navigationBars["Coney Islands"], 5, "Coney list")
+        // Cincinnati Chili: sort, filters, search
+        guideCard("Cincinnati Chili").tap()
+        waitFor(app.navigationBars["Cincinnati Chili"], 5, "chili list")
         waitFor(text(containing: "places ·"), 5, "list count header")
         app.buttons["Sort"].tap()
         waitFor(app.buttons["A to Z"], 3, "sort menu"); app.buttons["A to Z"].tap()
@@ -131,40 +131,41 @@ final class SmokeUITests: XCTestCase {
         XCTAssertFalse(text(containing: "filter on").waitForExistence(timeout: 1), "filters cleared")
         let search = app.searchFields.firstMatch
         if !search.exists { app.swipeDown() }
-        waitFor(search, 3, "search field"); search.tap(); search.typeText("detroit")
+        waitFor(search, 3, "search field"); search.tap(); search.typeText("cincinnati")
         waitFor(text(containing: "places ·"), 3, "search results header")
 
         // the full directory → a known place → Apple Maps card, save, share
         fresh()
         button(containing: "Search every restaurant").tap()
         let search2 = app.searchFields.firstMatch
-        waitFor(search2, 5, "directory search"); search2.tap(); search2.typeText("lafayette con")
-        let joes = button(containing: "Lafayette Coney Island")
-        waitFor(joes, 5, "Lafayette in results"); joes.tap()
-        exerciseDetail(named: "LAFAYETTE CONEY ISLAND")
+        waitFor(search2, 5, "directory search"); search2.tap(); search2.typeText("camp washington")
+        let camp = button(containing: "Camp Washington Chili")
+        waitFor(camp, 5, "Camp Washington Chili in results"); camp.tap()
+        exerciseDetail(named: "CAMP WASHINGTON CHILI")
 
         // every other guide opens with a list
-        for g in ["Detroit-Style Pizza", "Pasties", "Pączki Bakeries", "Middle Eastern", "James Beard Honors", "Detroit Inspections", "Near Me"] {
+        for g in ["Goetta", "Pierogi & Cleveland Plates", "Ohio Pizza Styles", "Barberton Chicken", "Hungarian Hot Dogs", "Lake Erie Perch & Walleye",
+                  "Amish Country", "James Beard Honors", "Oldest Places", "Cincinnati Inspections", "Near Me"] {
             fresh()
             let card = guideCard(g)
             scrollTo(card)
             card.tap()
             if g == "Near Me" { app.swipeDown() }   // any interaction lets the monitor answer the location prompt (a tap could open a row)
             waitFor(app.navigationBars[g], 5, "\(g) list")
-            if g != "Near Me" { waitFor(text(containing: "places ·"), 5, "\(g) count header") }
+            if g != "Near Me" { waitFor(text(containing: g == "Goetta" ? "place ·" : "places ·"), 5, "\(g) count header") }
         }
 
         // surprise me
         fresh()
         let surprise = button(containing: "Surprise me")
         scrollTo(surprise); surprise.tap()
-        waitFor(button(containing: "Ratings, hours"), 5, "a random Michigan pick")
+        waitFor(button(containing: "Ratings, hours"), 5, "a random Ohio pick")
 
         // Map: every layer
         fresh()
         app.tabBars.buttons["Map"].tap()
-        // Inspected last: its ~1,100 Detroit pins make any later query of this screen time out, so the app relaunches after it
-        for l in ["Coneys", "Honors", "Everything", "Michigan picks", "Inspected"] {
+        // Inspected last: its ~900 Cincinnati pins make any later query of this screen time out, so the app relaunches after it
+        for l in ["Chili", "Honors", "Everything", "Ohio picks", "Inspected"] {
             let chip = app.buttons[l]
             waitFor(chip, 5, "map layer \(l)")
             if !chip.isHittable { app.scrollViews.firstMatch.swipeLeft() }
@@ -174,17 +175,17 @@ final class SmokeUITests: XCTestCase {
             waitFor(text(containing: l == "Everything" ? "Zoom in to a town" : "tap a pin"), 5, "map hint for \(l)")
         }
 
-        // Saved: Lafayette, saved earlier, survived relaunches; remove it
+        // Saved: Camp Washington, saved earlier, survived relaunches; remove it
         fresh()
         app.tabBars.buttons["Saved"].tap()
-        let saved = button(containing: "Lafayette Coney Island")
+        let saved = button(containing: "Camp Washington Chili")
         waitFor(saved, 5, "saved place")
         saved.swipeLeft()
         if app.buttons["Remove"].waitForExistence(timeout: 2) { app.buttons["Remove"].tap() }
 
         // About
         app.tabBars.buttons["About"].tap()
-        waitFor(text(containing: "MICHIGAN EATS"), 5, "about header")
+        waitFor(text(containing: "OHIO EATS"), 5, "about header")
         let privacy = app.buttons["Privacy policy"].exists ? app.buttons["Privacy policy"] : app.links["Privacy policy"]
         scrollTo(privacy)
         XCTAssertTrue(privacy.exists, "privacy link")
@@ -198,22 +199,22 @@ final class SmokeUITests: XCTestCase {
 
     private func padTour() throws {
         // iPad opens on Home in portrait, and a Home card opens its guide
-        waitFor(text(containing: "Coneys, Pasties & Square Pizza"), 15, "Home at launch in portrait")
-        guideCard("Coney Islands").tap()
-        waitFor(app.navigationBars["Coney Islands"], 5, "a Home card opens its guide on iPad")
+        waitFor(text(containing: "Chili, Pierogi & Pizza"), 15, "Home at launch in portrait")
+        guideCard("Cincinnati Chili").tap()
+        waitFor(app.navigationBars["Cincinnati Chili"], 5, "a Home card opens its guide on iPad")
         XCUIDevice.shared.orientation = .landscapeLeft     // all three columns
         Thread.sleep(forTimeInterval: 1.5)
-        for g in ["Detroit-Style Pizza", "Pasties", "James Beard Honors", "Detroit Inspections", "All Restaurants", "Coney Islands"] {
+        for g in ["Ohio Pizza Styles", "Amish Country", "James Beard Honors", "Cincinnati Inspections", "All Restaurants", "Cincinnati Chili"] {
             let item = sidebarItem(g)
             waitFor(item, 5, "sidebar \(g)"); item.tap()
             waitFor(app.navigationBars[g], 5, "\(g) list")
         }
         let search = app.searchFields.firstMatch
         if !search.exists { app.swipeDown() }
-        waitFor(search, 5, "search"); search.tap(); search.typeText("lafayette")
-        let row = button(containing: "Lafayette Coney Island")
-        waitFor(row, 5, "Lafayette Coney Island in results"); row.tap()
-        exerciseDetail(named: "LAFAYETTE CONEY ISLAND")
+        waitFor(search, 5, "search"); search.tap(); search.typeText("camp washington")
+        let row = button(containing: "Camp Washington Chili")
+        waitFor(row, 5, "Camp Washington Chili in results"); row.tap()
+        exerciseDetail(named: "CAMP WASHINGTON CHILI")
         // Apple's place card is still up over the split view: a tap outside it (or a swipe down) closes it
         for _ in 0..<3 where !sidebarItem("Map").isHittable {
             app.coordinate(withNormalizedOffset: CGVector(dx: 0.03, dy: 0.08)).tap()
@@ -224,7 +225,7 @@ final class SmokeUITests: XCTestCase {
             let item = sidebarItem(s)
             waitFor(item, 5, "sidebar \(s)"); item.tap()
         }
-        waitFor(text(containing: "MICHIGAN EATS"), 5, "about header")
+        waitFor(text(containing: "OHIO EATS"), 5, "about header")
         XCUIDevice.shared.orientation = .portrait
         Thread.sleep(forTimeInterval: 1.5)
         XCTAssertEqual(app.state, .runningForeground)
@@ -235,7 +236,7 @@ final class SmokeUITests: XCTestCase {
             XCUIDevice.shared.orientation = .landscapeLeft
             waitFor(sidebarItem("Map"), 15, "sidebar Map"); sidebarItem("Map").tap()
         } else {
-            waitFor(text(containing: "Coneys, Pasties & Square Pizza"), 15, "home header")
+            waitFor(text(containing: "Chili, Pierogi & Pizza"), 15, "home header")
             app.tabBars.buttons["Map"].tap()
         }
         let chip = app.buttons["Everything"]
@@ -262,7 +263,7 @@ final class SmokeUITests: XCTestCase {
             XCUIDevice.shared.orientation = .landscapeLeft
             waitFor(sidebarItem("Map"), 15, "sidebar Map"); sidebarItem("Map").tap()
         } else {
-            waitFor(text(containing: "Coneys, Pasties & Square Pizza"), 15, "home header")
+            waitFor(text(containing: "Chili, Pierogi & Pizza"), 15, "home header")
             app.tabBars.buttons["Map"].tap()
         }
         let chip = app.buttons["Everything"]
@@ -275,16 +276,16 @@ final class SmokeUITests: XCTestCase {
     }
 
     func testMyLocationCentersTheMap() {
-        openMapEverything(at: CLLocation(latitude: 42.3315, longitude: -83.0466))   // downtown Detroit
+        openMapEverything(at: CLLocation(latitude: 39.1031, longitude: -84.5120))   // downtown Cincinnati
         // not a full staticTexts dump here: with the map filled in, hundreds of pins make that query time out
         waitFor(text(containing: "places here"), 15, "map moved to the simulated location and filled in")
         if isPad { XCUIDevice.shared.orientation = .portrait }
     }
 
-    /// App Review is usually in California: the map says so and stays on Michigan rather than showing an empty map.
-    func testMyLocationOutsideMichigan() {
+    /// App Review is usually in California: the map says so and stays on Ohio rather than showing an empty map.
+    func testMyLocationOutsideOhio() {
         openMapEverything(at: CLLocation(latitude: 37.3349, longitude: -122.009))
-        waitFor(text(containing: "outside Michigan"), 15, "the outside-Michigan note")
+        waitFor(text(containing: "outside Ohio"), 15, "the outside-Ohio note")
         XCTAssertTrue(text(containing: "Zoom in to a town").waitForExistence(timeout: 8), "the map stayed statewide")
         if isPad { XCUIDevice.shared.orientation = .portrait }
     }
@@ -293,7 +294,7 @@ final class SmokeUITests: XCTestCase {
     /// so a run lists them all; read the log and fix what's ours (system bars and Apple's place card aren't).
     func testAccessibilityAudit() throws {
         if isPad { return }
-        waitFor(text(containing: "Coneys, Pasties & Square Pizza"), 15, "home header")
+        waitFor(text(containing: "Chili, Pierogi & Pizza"), 15, "home header")
         func audit(_ screen: String) throws {
             try app.performAccessibilityAudit { issue in
                 let el = issue.element.map { "\($0.elementType.rawValue) '\($0.label.prefix(40))'" } ?? "-"
@@ -302,9 +303,9 @@ final class SmokeUITests: XCTestCase {
             }
         }
         try audit("home")
-        guideCard("Coney Islands").tap()
-        waitFor(text(containing: "places ·"), 5, "Coney list")
-        try audit("coney")
+        guideCard("Cincinnati Chili").tap()
+        waitFor(text(containing: "places ·"), 5, "chili list")
+        try audit("chili")
         app.buttons.matching(NSPredicate(format: "label CONTAINS ' · '")).firstMatch.tap()
         waitFor(button(containing: "Ratings, hours"), 5, "a place")
         try audit("detail")
@@ -325,8 +326,8 @@ final class SmokeUITests: XCTestCase {
         let start = Date()
         app.launch()
         // [c]: the home header may be set in capitals
-        let ready = isPad ? app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'places ·' OR label CONTAINS[c] 'Coneys, Pasties & Square Pizza'")).firstMatch
-                          : text(containing: "Coneys, Pasties & Square Pizza")
+        let ready = isPad ? app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'places ·' OR label CONTAINS[c] 'Chili, Pierogi & Pizza'")).firstMatch
+                          : text(containing: "Chili, Pierogi & Pizza")
         XCTAssertTrue(ready.waitForExistence(timeout: 30), "home didn't appear")
         let secs = Date().timeIntervalSince(start)
         print("launch to home: \(String(format: "%.2f", secs)) s (load average \(String(format: "%.1f", load[0])))")

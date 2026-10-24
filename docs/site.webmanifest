@@ -1,0 +1,21 @@
+{
+  "name": "Ohio Eats",
+  "short_name": "Ohio Eats",
+  "description": "Chili, pierogi & pizza: a guide to 25,356 Ohio restaurants.",
+  "start_url": "/ohio-eats/",
+  "display": "browser",
+  "background_color": "#fbf6ef",
+  "theme_color": "#3b2314",
+  "icons": [
+    {
+      "src": "/ohio-eats/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ohio-eats/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

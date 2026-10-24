@@ -21,11 +21,15 @@ enum Links {
     /// The web app. It opens a place's panel from the hash, explore/#p=<id> (readHash in scripts/explore.js), using the app's ids.
     static let explore = URL(string: site.absoluteString + "explore/")!
 
+    /// Whether the web app lists the place: make-site.py's rule (restaurants only; the venues the app hides by default, such as
+    /// stadium stands and gas-station counters, stay out).
+    static func onWeb(_ place: Place) -> Bool { !place.isVenue }
+
     /// What Share sends: the place's own page in the web app, never an Apple Maps or Google link (Apple Maps has its own button).
-    /// The id is escaped the way the page's encodeURIComponent would escape it. The web app lists every place
-    /// the app does (a unit test checks the ids against docs/data).
+    /// The id is escaped the way the page's encodeURIComponent would escape it. A place the web app leaves out gets the web app's
+    /// front page, never a #p= link that opens nothing (a unit test checks the ids against docs/data).
     static func share(_ place: Place) -> URL {
-        guard let id = place.id.addingPercentEncoding(withAllowedCharacters: uriComponent),
+        guard onWeb(place), let id = place.id.addingPercentEncoding(withAllowedCharacters: uriComponent),
               let url = URL(string: explore.absoluteString + "#p=" + id) else { return explore }
         return url
     }

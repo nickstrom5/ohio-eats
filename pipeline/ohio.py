@@ -281,6 +281,10 @@ def load_research():
     styles, Barberton chicken, Toledo's Hungarian hot dogs, Lake Erie perch and walleye, Amish Country family-style dining, oldest places)
     (facts only, each with a 2025-26 source). An entry for a place already in CUR adds its kinds and notes there."""
     out, by = [], {(norm_name(c["name"]), (canon_city(c.get("city")) or "").lower()): c for c in CUR}
+
+    def num(x):   # the street number: a chain's branches in one town (Marion's Piazza in Dayton) are separate entries
+        m = re.match(r"\s*(\d+)", str(x.get("address") or ""))
+        return m[1] if m else None
     for f in sorted(glob.glob(f"{DATA}/research/app/*.json")):
         if os.path.basename(f).startswith("closed"):
             continue
@@ -291,12 +295,14 @@ def load_research():
             if not ok_src or e.get("recheck"):   # a guide entry needs a 2025-26 source we may use; it waits until it has one
                 NO_SOURCE.append(f"{e['name']} ({e.get('city') or ''})"); continue
             key = (norm_name(e["name"]), (canon_city(e.get("city")) or "").lower())
-            c = by.get(key)
+            c = by.get(key + (num(e),)) or by.get(key)
+            if c is not None and num(e) and num(c) and num(c) != num(e):
+                c = None
             if c is None:
                 c = {"name": e["name"], "address": e.get("address"), "city": e.get("city"), "zip": e.get("zip"), "chain": False,
                      "match_names": [e["name"].upper()] + [m.upper() for m in e.get("match_names") or []], "founded": e.get("founded"),
                      "open": True, "tags": [], "research_only": True}
-                by[key] = c; out.append(c)
+                by.setdefault(key, c); by[key + (num(e),)] = c; out.append(c)
             c["tags"] = list(dict.fromkeys((c.get("tags") or []) + [k.lower() for k in (e.get("kinds") or [])]))
             c["dishes"] = list(dict.fromkeys((c.get("dishes") or []) + (e.get("dishes") or [])))
             c["rsources"] = list(dict.fromkeys((c.get("rsources") or []) + ok_src))
@@ -919,6 +925,8 @@ STORE = re.compile(r"^(?:CASEYS(?: GENERAL STORE)?|KING SOOPERS?|CITY MARKET|SAF
                    r"HOT STUFF (?:PIZZA|FOODS|KITCHEN)|KRISPY KRUNCHY|CHESTERS (?:FRIED )?CHICKEN|GAS STATION|"
                    r"TRAVEL (?:CENTER|PLAZA|STOP)|TRUCK STOP|TRUCKSTOP|PILOT FLYING J|FLYING J|LOVES TRAVEL|FARMERS FRIDGE|MRBEAST|MR BEAST|"
                    r"ITS JUST WINGS|WOW BAO|GHOST KITCHEN|VIRTUAL KITCHEN|LIQUORS? (?:STORE|MART|DEPOT|OUTLET|BARN|WAREHOUSE)|LIQUORS?$|"
+                   # delivery-only brands cooked in another restaurant's kitchen (Denny's and others; the sibling QA of 2026-10-24)
+                   r"BURGER DEN|BANDA BURRITO|^(?:THE )?MELTDOWN$|TENDERFIX|PARDON MY CHEESESTEAK|"
                    r"WINE AND SPIRITS|AND SPIRITS$|GENTLEM[AE]NS CLUB|SHOWGIRLS|BABY DOLLS|PT S (?:SHOWCLUB|GOLD)|DIAMOND CABARET|RICKS CABARET|XTC CABARET|"
                    r"SPECS WINES|"
                    r"TRAMPOLINE|INDOOR PLAYGROUND|DISPENSARY|CANNABIS|MARIJUANA|NATIVE ROOTS|LIVWELL|LIGHTSHADE|"
@@ -965,7 +973,7 @@ gfirst = o.gcats.fillna("").str.split("|").str[0]
 plainly_food = kd.str.contains(REALFOOD) | o.cat.isin(["bar", "brewery", "coffee_shop", "cafe"]) \
     | gfirst.str.contains(r"\b(?:Bar|Pub|Restaurant|Cafe|Café|Coffee|Tavern|Grill|Brewery|Diner|Bakery)\b", regex=True)
 brand_store = o.brand_n.isin(["Casey's", "7-Eleven", "Hunt Brothers Pizza", "Hot Stuff Pizza", "Krispy Krunchy Chicken", "MrBeast Burger",
-                              "It's Just Wings", "Kum & Go", "Maverik", "Loaf 'N Jug", "Love's", "Rocky Mountain Chocolate Factory",
+                              "It's Just Wings", "Burger Den", "The Meltdown", "Banda Burrito", "Tenderfix", "Pardon My Cheesesteak", "Kum & Go", "Maverik", "Loaf 'N Jug", "Love's", "Rocky Mountain Chocolate Factory",
                               "Kroger", "Shell", "Meijer", "Speedway", "Marathon", "Wesco", "Family Fare", "Circle K", "Holiday Stationstores",
                               "Admiral", "Sheetz", "Giant Eagle", "GetGo", "United Dairy Farmers", "Duchess", "Dairy Mart", "Certified Oil",
                               "Marc's", "Heinen's", "Dorothy Lane Market", "Buehler's"])
@@ -1161,7 +1169,7 @@ o["honored"] = o.jbf.notna() | o.michelin.notna() | o.t_oldest
 # a MICHELIN restaurant isn't a pub because its map listing says "bar"; starred places are $$$$ unless Google gave a price level
 o.loc[o.michelin.notna() & o.cuisine.eq("Bar & Pub"), "cuisine"] = "American & Other"
 shop = pd.Series(False, index=o.index)
-campus = o.name.fillna("").str.contains(r"^\(CU\)|@ .*\bHall\b", case=False, regex=True) \
+campus = o.name.fillna("").str.contains(r"^\(CU\)|@ .*\bHall\b|^(?:Parkhurst|Sodexo|Aramark|Bon App[eé]tit) Dining\b", case=False, regex=True) \
     | (o.name_out.fillna("").str.contains(r"\b(?:Day Spa|Salon|Aesthetics|Barber(?:shop)?|Tattoo|Jewel(?:ry|ers)|Center for the Arts|Ice Arena)\b",
                                           case=False, regex=True) & ~o.name_out.fillna("").str.contains(r"Bookcase", case=False, regex=True))
 # Python's re, not pandas' (its pyarrow engine has ASCII-only word boundaries, so "Café" never matched)

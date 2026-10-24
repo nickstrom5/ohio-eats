@@ -37,6 +37,7 @@
 		CE1EA30E4D8C329607995D2C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B7875A854629385A9698C9 /* HomeView.swift */; };
 		CF9285C6EAE11F9F44F55D93 /* detail-dayton-miami-valley.json in Resources */ = {isa = PBXBuildFile; fileRef = BEA2C9A05D82DB714314E22F /* detail-dayton-miami-valley.json */; };
 		D18197605369D62C49BE181E /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CE899BCDE1F5720E74E1B9 /* SpotlightIndexer.swift */; };
+		D25EBDB05C6BB8C8F2C81B9F /* ShareLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872ED03E5689BEDF35F3B3DE /* ShareLinkTests.swift */; };
 		DA6A8D80043B1FA2B0D60EB7 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC198531F4333F76C15A0651 /* AppModel.swift */; };
 		E16E29B23889442917203522 /* FiltersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACB43B105A904191178D393 /* FiltersSheet.swift */; };
 		E742EFE4424F7803A7E4760D /* SavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7238F0B417DB258AF67E4366 /* SavedView.swift */; };
@@ -86,6 +87,7 @@
 		7A89617763230BAAC16F99E1 /* OhioEatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhioEatsTests.swift; sourceTree = "<group>"; };
 		7E38D2FD838C63C0016E53AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		829700D89F9D76FC2E820E54 /* OhioEatsTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OhioEatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		872ED03E5689BEDF35F3B3DE /* ShareLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareLinkTests.swift; sourceTree = "<group>"; };
 		89927CCEE0B5FE35A1D77F3E /* detail-cincinnati-southwest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "detail-cincinnati-southwest.json"; sourceTree = "<group>"; };
 		8EC499ECDCECCF73C697EF71 /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
 		90DF160255FC762CD35DE2FE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			children = (
 				7A89617763230BAAC16F99E1 /* OhioEatsTests.swift */,
 				77776796D00B8AA39D229DEA /* PerformanceTests.swift */,
+				872ED03E5689BEDF35F3B3DE /* ShareLinkTests.swift */,
 			);
 			path = OhioEatsTests;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 			files = (
 				486CE92C7C6EF1953EB6A768 /* OhioEatsTests.swift in Sources */,
 				038FDADE6460B7480F5DEF16 /* PerformanceTests.swift in Sources */,
+				D25EBDB05C6BB8C8F2C81B9F /* ShareLinkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

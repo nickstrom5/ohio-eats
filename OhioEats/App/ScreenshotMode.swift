@@ -3,7 +3,7 @@ import CoreLocation
 import UIKit
 
 /// `-screenshot <name>` opens one screen with fixed state for App Store screenshots (scripts/capture-screenshots.sh).
-/// Names: home, chili, pierogi, detail, map, honors, oldest, saved, about.
+/// Names: home, chili, pizza, pierogi, detail, map, honors, oldest, saved, about.
 enum ScreenshotMode {
     /// Debug builds only: an App Store build ignores the launch argument, so no one can reach seeded screens or fake locations.
     static var name: String? {
@@ -37,6 +37,10 @@ enum ScreenshotMode {
         let open = { (g: Guide) in model.tab = .guides; model.selectedGuide = g; model.guidesPath = [.guide(g)] }
         switch name {
         case "chili": open(.chili)
+        case "pizza":
+            // from Courthouse Square, so Dayton's square-cut pizzerias are the nearest
+            model.screenshotLocation = CLLocation(latitude: 39.7589, longitude: -84.1916)
+            open(.ohioPizza)
         case "pierogi":
             // from Public Square, so Cleveland's pierogi kitchens are a short drive
             model.screenshotLocation = CLLocation(latitude: 41.4995, longitude: -81.6937)
@@ -56,7 +60,7 @@ enum ScreenshotMode {
         guard UIDevice.current.userInterfaceIdiom == .pad, model.selectedPlace == nil else { return }
         let place: Place? = switch name {
         case "home", "chili", "map": pick(Self.chiliPick.0, Self.chiliPick.1)
-        case "pierogi": pick(Self.barbertonPick.0, Self.barbertonPick.1)
+        case "pizza", "pierogi": pick(Self.barbertonPick.0, Self.barbertonPick.1)
         case "saved", "oldest", "honors": pick(Self.toledoPick.0, Self.toledoPick.1)
         case "about": nil
         default: pick(Self.chiliPick.0, Self.chiliPick.1)

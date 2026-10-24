@@ -1,0 +1,487 @@
+{
+ "generated": "2026-10-24",
+ "domain": "https://nickstrom5.github.io/ohio-eats",
+ "restaurants": 25356,
+ "places_incl_hidden": 26306,
+ "towns": 881,
+ "counties": 88,
+ "on_an_official_list": 3377,
+ "cin_live_licenses": 2340,
+ "col_permits": 5188,
+ "hand_checked_on_a_guide": 39,
+ "guide_chili": 6,
+ "guide_pizza": 15,
+ "guide_eeuro": 3,
+ "guide_amish": 6,
+ "guide_perch": 3,
+ "guide_barberton": 2,
+ "guide_hungarian": 2,
+ "guide_goetta": 1,
+ "guide_pages": [
+  "chili",
+  "pizza",
+  "amish"
+ ],
+ "oldest": 3,
+ "honors": 13,
+ "james_beard": 13,
+ "americas_classics": 1,
+ "inspection_results": 3312,
+ "inspection_bands": {
+  "Cincinnati": {
+   "Approved - No Violations": 135,
+   "Approved - Violations Abated": 103,
+   "Approved - Minor Violations": 604,
+   "Not In Compliance": 18
+  },
+  "Columbus": {
+   "Standards Met": 2448,
+   "Under Enforcement": 3,
+   "Closed for Violation": 1
+  }
+ },
+ "inspections_through": {
+  "cin": "2026-10-14",
+  "col": "2026-10-24"
+ },
+ "city_pages": {
+  "Cincinnati": {
+   "restaurants": 1833,
+   "listed": 8,
+   "chili": 4,
+   "pizza": 0,
+   "amish": 0,
+   "hon": 5,
+   "oldest": 0,
+   "inspection_results": 859,
+   "inspection_bands": {
+    "Approved - No Violations": 135,
+    "Approved - Violations Abated": 103,
+    "Approved - Minor Violations": 603,
+    "Not In Compliance": 18
+   }
+  },
+  "Columbus": {
+   "restaurants": 2743,
+   "listed": 5,
+   "chili": 0,
+   "pizza": 2,
+   "amish": 0,
+   "hon": 3,
+   "oldest": 0,
+   "inspection_results": 2176,
+   "inspection_bands": {
+    "Standards Met": 2172,
+    "Under Enforcement": 3,
+    "Closed for Violation": 1
+   }
+  },
+  "Cleveland": {
+   "restaurants": 1091,
+   "listed": 4,
+   "chili": 0,
+   "pizza": 0,
+   "amish": 0,
+   "hon": 4,
+   "oldest": 0,
+   "inspection_results": 0,
+   "inspection_bands": {}
+  },
+  "Dayton": {
+   "restaurants": 592,
+   "listed": 6,
+   "chili": 0,
+   "pizza": 6,
+   "amish": 0,
+   "hon": 0,
+   "oldest": 0,
+   "inspection_results": 0,
+   "inspection_bands": {}
+  }
+ },
+ "cities_without_a_page": {
+  "Toledo": 1,
+  "Akron": 0,
+  "Youngstown": 2,
+  "Barberton": 1,
+  "Parma": 1,
+  "Berlin": 2,
+  "Walnut Creek": 1,
+  "Sugarcreek": 1,
+  "Middlefield": 1,
+  "Port Clinton": 1,
+  "Sandusky": 0,
+  "Grand River": 1,
+  "Lebanon": 1,
+  "Yellow Springs": 1,
+  "Blue Ash": 1,
+  "Sylvania": 1
+ },
+ "noindex_pages": [],
+ "web_app_data_bytes": {
+  "data/core.json": {
+   "raw": 2385461,
+   "gzip": 414294
+  },
+  "data/detail-adams-county.json": {
+   "raw": 1885,
+   "gzip": 616
+  },
+  "data/detail-allen-county.json": {
+   "raw": 12548,
+   "gzip": 3230
+  },
+  "data/detail-ashland-county.json": {
+   "raw": 5937,
+   "gzip": 1633
+  },
+  "data/detail-ashtabula-county.json": {
+   "raw": 12451,
+   "gzip": 3230
+  },
+  "data/detail-athens-county.json": {
+   "raw": 9027,
+   "gzip": 2480
+  },
+  "data/detail-auglaize-county.json": {
+   "raw": 5762,
+   "gzip": 1672
+  },
+  "data/detail-belmont-county.json": {
+   "raw": 7911,
+   "gzip": 2110
+  },
+  "data/detail-brown-county.json": {
+   "raw": 3913,
+   "gzip": 1177
+  },
+  "data/detail-butler-county.json": {
+   "raw": 47827,
+   "gzip": 11662
+  },
+  "data/detail-carroll-county.json": {
+   "raw": 2582,
+   "gzip": 834
+  },
+  "data/detail-champaign-county.json": {
+   "raw": 3591,
+   "gzip": 1131
+  },
+  "data/detail-clark-county.json": {
+   "raw": 14001,
+   "gzip": 3420
+  },
+  "data/detail-clermont-county.json": {
+   "raw": 22705,
+   "gzip": 5666
+  },
+  "data/detail-clinton-county.json": {
+   "raw": 4322,
+   "gzip": 1270
+  },
+  "data/detail-columbiana-county.json": {
+   "raw": 9932,
+   "gzip": 2693
+  },
+  "data/detail-coshocton-county.json": {
+   "raw": 3360,
+   "gzip": 1025
+  },
+  "data/detail-crawford-county.json": {
+   "raw": 4640,
+   "gzip": 1296
+  },
+  "data/detail-cuyahoga-county.json": {
+   "raw": 175319,
+   "gzip": 42084
+  },
+  "data/detail-darke-county.json": {
+   "raw": 4404,
+   "gzip": 1309
+  },
+  "data/detail-defiance-county.json": {
+   "raw": 5307,
+   "gzip": 1514
+  },
+  "data/detail-delaware-county.json": {
+   "raw": 45377,
+   "gzip": 9681
+  },
+  "data/detail-erie-county.json": {
+   "raw": 15795,
+   "gzip": 4115
+  },
+  "data/detail-fairfield-county.json": {
+   "raw": 17493,
+   "gzip": 4667
+  },
+  "data/detail-fayette-county.json": {
+   "raw": 4053,
+   "gzip": 1208
+  },
+  "data/detail-franklin-county.json": {
+   "raw": 401823,
+   "gzip": 66222
+  },
+  "data/detail-fulton-county.json": {
+   "raw": 3317,
+   "gzip": 978
+  },
+  "data/detail-gallia-county.json": {
+   "raw": 3457,
+   "gzip": 1064
+  },
+  "data/detail-geauga-county.json": {
+   "raw": 9529,
+   "gzip": 2725
+  },
+  "data/detail-greene-county.json": {
+   "raw": 24878,
+   "gzip": 6400
+  },
+  "data/detail-guernsey-county.json": {
+   "raw": 4841,
+   "gzip": 1355
+  },
+  "data/detail-hamilton-county.json": {
+   "raw": 318753,
+   "gzip": 57264
+  },
+  "data/detail-hancock-county.json": {
+   "raw": 9859,
+   "gzip": 2679
+  },
+  "data/detail-hardin-county.json": {
+   "raw": 2232,
+   "gzip": 669
+  },
+  "data/detail-harrison-county.json": {
+   "raw": 1001,
+   "gzip": 407
+  },
+  "data/detail-henry-county.json": {
+   "raw": 2519,
+   "gzip": 812
+  },
+  "data/detail-highland-county.json": {
+   "raw": 2861,
+   "gzip": 846
+  },
+  "data/detail-hocking-county.json": {
+   "raw": 3380,
+   "gzip": 1015
+  },
+  "data/detail-holmes-county.json": {
+   "raw": 3388,
+   "gzip": 1132
+  },
+  "data/detail-huron-county.json": {
+   "raw": 5876,
+   "gzip": 1634
+  },
+  "data/detail-jackson-county.json": {
+   "raw": 3380,
+   "gzip": 950
+  },
+  "data/detail-jefferson-county.json": {
+   "raw": 6997,
+   "gzip": 1935
+  },
+  "data/detail-knox-county.json": {
+   "raw": 5433,
+   "gzip": 1530
+  },
+  "data/detail-lake-county.json": {
+   "raw": 30609,
+   "gzip": 7730
+  },
+  "data/detail-lawrence-county.json": {
+   "raw": 4410,
+   "gzip": 1160
+  },
+  "data/detail-licking-county.json": {
+   "raw": 19799,
+   "gzip": 5038
+  },
+  "data/detail-logan-county.json": {
+   "raw": 5486,
+   "gzip": 1542
+  },
+  "data/detail-lorain-county.json": {
+   "raw": 33410,
+   "gzip": 8195
+  },
+  "data/detail-lucas-county.json": {
+   "raw": 57273,
+   "gzip": 13473
+  },
+  "data/detail-madison-county.json": {
+   "raw": 4527,
+   "gzip": 1370
+  },
+  "data/detail-mahoning-county.json": {
+   "raw": 31520,
+   "gzip": 7818
+  },
+  "data/detail-marion-county.json": {
+   "raw": 6357,
+   "gzip": 1751
+  },
+  "data/detail-medina-county.json": {
+   "raw": 20023,
+   "gzip": 5018
+  },
+  "data/detail-meigs-county.json": {
+   "raw": 1781,
+   "gzip": 641
+  },
+  "data/detail-mercer-county.json": {
+   "raw": 4120,
+   "gzip": 1288
+  },
+  "data/detail-miami-county.json": {
+   "raw": 12196,
+   "gzip": 3518
+  },
+  "data/detail-monroe-county.json": {
+   "raw": 1199,
+   "gzip": 440
+  },
+  "data/detail-montgomery-county.json": {
+   "raw": 69318,
+   "gzip": 16159
+  },
+  "data/detail-morgan-county.json": {
+   "raw": 768,
+   "gzip": 312
+  },
+  "data/detail-morrow-county.json": {
+   "raw": 1952,
+   "gzip": 652
+  },
+  "data/detail-muskingum-county.json": {
+   "raw": 11066,
+   "gzip": 2819
+  },
+  "data/detail-noble-county.json": {
+   "raw": 1217,
+   "gzip": 462
+  },
+  "data/detail-ottawa-county.json": {
+   "raw": 8548,
+   "gzip": 2324
+  },
+  "data/detail-paulding-county.json": {
+   "raw": 1144,
+   "gzip": 431
+  },
+  "data/detail-perry-county.json": {
+   "raw": 2581,
+   "gzip": 776
+  },
+  "data/detail-pickaway-county.json": {
+   "raw": 5124,
+   "gzip": 1433
+  },
+  "data/detail-pike-county.json": {
+   "raw": 2660,
+   "gzip": 812
+  },
+  "data/detail-portage-county.json": {
+   "raw": 18839,
+   "gzip": 4768
+  },
+  "data/detail-preble-county.json": {
+   "raw": 3014,
+   "gzip": 952
+  },
+  "data/detail-putnam-county.json": {
+   "raw": 2417,
+   "gzip": 755
+  },
+  "data/detail-richland-county.json": {
+   "raw": 14876,
+   "gzip": 3814
+  },
+  "data/detail-ross-county.json": {
+   "raw": 8924,
+   "gzip": 2309
+  },
+  "data/detail-sandusky-county.json": {
+   "raw": 7750,
+   "gzip": 2249
+  },
+  "data/detail-scioto-county.json": {
+   "raw": 6728,
+   "gzip": 1786
+  },
+  "data/detail-seneca-county.json": {
+   "raw": 4697,
+   "gzip": 1407
+  },
+  "data/detail-shelby-county.json": {
+   "raw": 5235,
+   "gzip": 1539
+  },
+  "data/detail-stark-county.json": {
+   "raw": 49736,
+   "gzip": 11891
+  },
+  "data/detail-summit-county.json": {
+   "raw": 69846,
+   "gzip": 16806
+  },
+  "data/detail-trumbull-county.json": {
+   "raw": 23912,
+   "gzip": 6051
+  },
+  "data/detail-tuscarawas-county.json": {
+   "raw": 12303,
+   "gzip": 3245
+  },
+  "data/detail-union-county.json": {
+   "raw": 6985,
+   "gzip": 1999
+  },
+  "data/detail-van-wert-county.json": {
+   "raw": 3192,
+   "gzip": 1013
+  },
+  "data/detail-vinton-county.json": {
+   "raw": 464,
+   "gzip": 242
+  },
+  "data/detail-warren-county.json": {
+   "raw": 30531,
+   "gzip": 7688
+  },
+  "data/detail-washington-county.json": {
+   "raw": 7181,
+   "gzip": 1934
+  },
+  "data/detail-wayne-county.json": {
+   "raw": 9651,
+   "gzip": 2571
+  },
+  "data/detail-williams-county.json": {
+   "raw": 3718,
+   "gzip": 1138
+  },
+  "data/detail-wood-county.json": {
+   "raw": 18674,
+   "gzip": 4798
+  },
+  "data/detail-wyandot-county.json": {
+   "raw": 2752,
+   "gzip": 822
+  },
+  "data/ids.json": {
+   "raw": 329658,
+   "gzip": 190921
+  },
+  "data/oh_shapes.json": {
+   "raw": 30897,
+   "gzip": 7152
+  }
+ }
+}

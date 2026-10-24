@@ -35,8 +35,22 @@ Products (same three as every state):
 cd pipeline && ../.venv/bin/python listings.py && ../.venv/bin/python geocode_official.py && ../.venv/bin/python calibrate.py
 ../.venv/bin/python ohio.py && cd ..                                                         # web: site/ohio.json
 OH_APP=1 .venv/bin/python pipeline/ohio.py                                                    # app: data/app/places.json + detail-*.json
+cp data/app/places.json data/app/detail-*.json OhioEats/Resources/                            # the app's bundle
 .venv/bin/python scripts/make-leaderboard.py                                                  # site/index.html
+.venv/bin/python scripts/make-site.py && .venv/bin/python scripts/qa-site.py                  # docs/ (website + web app), then its QA
 ```
+Research: `pipeline/build_research.py` writes `data/research/app/*.json` (hand-checked guides: a page naming the place for the food plus
+2025-26 evidence that it's open) and `jbf.json`; entries are keyed by name, town and street number, so a chain's branches in one town
+(Marion's Piazza in Dayton) stay separate. Website links: `cd pipeline && ../.venv/bin/python check_websites.py [--retry-transient]`
+(detached with setsid; saves are atomic; back up `data/oh/website_check.json` before stopping one).
+
+## Website (docs/, generated)
+`scripts/make-site.py` (ported from mi-eats) writes a page per guide with at least 4 hand-checked places (chili, pizza, Amish Country
+today), James Beard honors, the Cincinnati & Columbus inspections explainer (counts only, no place named), city pages for towns with 5+
+hand-checked or honored places (Cincinnati, Columbus, Cleveland, Dayton), the web app (`scripts/explore.js`, restaurants only: venues
+stay out, so the app's `Links.onWeb` is `!isVenue`), privacy, terms, 404. `scripts/qa-site.py` checks it statically and in headless
+Chrome at 375/1280 px and dark mode (`--static` for the quick part). Screenshots: `scripts/capture-screenshots.sh <udid>` (screens
+home chili pizza pierogi detail map honors oldest saved about), `scripts/site-images.sh`, `scripts/appstore-screenshots.py`.
 Check every new source host first: `cd pipeline && ../.venv/bin/python check_sources.py <url> ...` (RFC 9309; an empty 202 is a bot check).
 
 ## Outward actions need Nick's explicit yes, every time
