@@ -1,0 +1,10 @@
+DerivedData*/
+data/
+site/
+.venv/
+*.pkl
+__pycache__/
+LOCAL.md
+playbook/app-store/raw/
+playbook/app-store/iphone/
+playbook/app-store/ipad/
