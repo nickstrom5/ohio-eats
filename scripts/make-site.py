@@ -1396,11 +1396,11 @@ page("explore/index.html", title, desc, body, [webapp_ld, bc], extra_css=EXPLORE
 
 # ---------------------------------------------------------------- landing page
 # alt text says what each capture shows (docs/screenshots, made by scripts/capture-screenshots.sh; copies by scripts/site-images.sh)
-shots = [("home", "The Ohio Eats home screen: a search box and guide cards for Cincinnati Chili, Ohio Pizza Styles, Amish Country and more, each with its count of places.", "A guide for each Ohio craving."),
+shots = [("home", "The Ohio Eats home screen: a search box and guide cards for Cincinnati Chili, Goetta, Pierogi & Cleveland Plates and Ohio Pizza Styles, each with its count of places.", "A guide for each Ohio craving."),
          ("chili", "The hand-checked Cincinnati chili list in Ohio Eats, nearest first, with each place's town, kind and distance.", "Chili parlors nearest you."),
-         ("detail", "A Cincinnati chili parlor in Ohio Eats: its address, Cincinnati chili tag, a button for Apple Maps' ratings, hours and photos, Directions and Call buttons, a small map, the hand-checked note and the Cincinnati Health Department's inspection results.", "Each place, with the City's own inspections."),
-         ("map", "The Ohio Eats map, with pins for hand-checked places and filter buttons for the guides, inspections and honors.", "The map, by guide."),
-         ("honors", "The James Beard honors list in Ohio Eats.", "James Beard honorees.")]
+         ("detail", "Camp Washington Chili in Ohio Eats: its address, America's Classic and Cincinnati chili tags, a button for Apple Maps' ratings, hours and photos, Directions and Call buttons, a small map and the hand-checked note.", "Each place, with a note checked by hand."),
+         ("map", "The Ohio Eats map around downtown Cincinnati, with pins for hand-checked places and layer buttons for Ohio picks, chili, inspections, honors and everything.", "The map, by guide."),
+         ("honors", "The James Beard honors list in Ohio Eats, with each place's town, kind and honor.", "James Beard honorees.")]
 shot_html = []
 for i, (name, alt, cap) in enumerate(shots):
     png = f"{DOCS}/img/screen-{name}.png"

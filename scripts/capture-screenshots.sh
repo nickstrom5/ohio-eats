@@ -9,13 +9,13 @@ set -euo pipefail
 DEVICE="${1:?simulator name or UDID}"
 shift
 SCREENS=("$@")
-[ ${#SCREENS[@]} -gt 0 ] || SCREENS=(home chili pizza pierogi detail map honors oldest saved about)
+[ ${#SCREENS[@]} -gt 0 ] || SCREENS=(home chili pizza amish pierogi detail map honors oldest saved about)
 OUT="${OUT:-$(cd "$(dirname "$0")/.." && pwd)/docs/screenshots}"
 PREFIX="${PREFIX:-}"
 WAIT="${SLEEP:-6}"
 MIN_BYTES=120000
 mkdir -p "$OUT"
-# Screenshot mode pins the location (downtown Cincinnati, Dayton or Cleveland), so the system permission alert is never wanted here.
+# Screenshot mode pins the location (Cincinnati, Columbus, Berlin or Cleveland), so the system permission alert is never wanted here.
 xcrun simctl privacy "$DEVICE" revoke location com.ohioeats.ios >/dev/null 2>&1 || true
 xcrun simctl status_bar "$DEVICE" override --time 9:41 --batteryState discharging --batteryLevel 100 --wifiBars 3 --cellularBars 4 >/dev/null 2>&1 || true
 for s in "${SCREENS[@]}"; do

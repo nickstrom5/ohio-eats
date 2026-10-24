@@ -22,14 +22,14 @@ IPHONE = [("01-home", "home.png", "Ohio's food, list by list"),
           ("02-chili", "chili.png", "Chili parlors, nearest first"),
           ("03-detail", "detail.png", "Each place, with notes checked by hand"),
           ("04-pizza", "pizza.png", "Ohio's own pizza styles"),
-          ("05-pierogi", "pierogi.png", "Pierogi and Cleveland classics"),
+          ("05-amish", "amish.png", "Amish Country home cooking"),
           ("06-map", "map.png", "Hand-checked places on the map"),
           ("07-honors", "honors.png", "Award winners and classics"),
           ("08-saved", "saved.png", "Keep your short list")]
 IPAD = [("01-home", "home.png", "Ohio's food, list by list"),
         ("02-chili", "chili.png", "Chili parlors, nearest first"),
         ("03-pizza", "pizza.png", "Ohio's own pizza styles"),
-        ("04-pierogi", "pierogi.png", "Pierogi and Cleveland classics"),
+        ("04-amish", "amish.png", "Amish Country home cooking"),
         ("05-map", "map.png", "Hand-checked places on the map"),
         ("06-honors", "honors.png", "Award winners and classics")]
 BANNED = ("free", "best", "#1", "top ", "james beard", "michelin")   # price claims, rankings and others' marks stay out of captions

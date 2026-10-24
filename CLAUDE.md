@@ -50,7 +50,7 @@ today), James Beard honors, the Cincinnati & Columbus inspections explainer (cou
 hand-checked or honored places (Cincinnati, Columbus, Cleveland, Dayton), the web app (`scripts/explore.js`, restaurants only: venues
 stay out, so the app's `Links.onWeb` is `!isVenue`), privacy, terms, 404. `scripts/qa-site.py` checks it statically and in headless
 Chrome at 375/1280 px and dark mode (`--static` for the quick part). Screenshots: `scripts/capture-screenshots.sh <udid>` (screens
-home chili pizza pierogi detail map honors oldest saved about), `scripts/site-images.sh`, `scripts/appstore-screenshots.py`.
+home chili pizza amish pierogi detail map honors oldest saved about), `scripts/site-images.sh`, `scripts/appstore-screenshots.py`.
 Check every new source host first: `cd pipeline && ../.venv/bin/python check_sources.py <url> ...` (RFC 9309; an empty 202 is a bot check).
 
 ## Outward actions need Nick's explicit yes, every time

@@ -180,9 +180,16 @@ final class OhioEatsTests: XCTestCase {
     func testScreenshotPicksPass() async throws {
         let m = AppModel(defaults: UserDefaults(suiteName: "shots-\(UUID().uuidString)")!)
         await m.load()
-        for (n, town) in [ScreenshotMode.chiliPick, ScreenshotMode.toledoPick, ScreenshotMode.barbertonPick] {
+        for (n, town) in [ScreenshotMode.chiliPick, ScreenshotMode.toledoPick, ScreenshotMode.barbertonPick, ScreenshotMode.padChiliPick,
+                          ScreenshotMode.pizzaPick, ScreenshotMode.amishPick] {
             let p = try XCTUnwrap(m.places.first { $0.name == n && $0.city == town }, "\(n) is in the data")
             XCTAssertFalse(p.inspection.map { m.band($0.band).isLow } ?? false, "\(n)'s latest result doesn't pass")
+        }
+        // the iPad shots show the place column with every visit: none of them may read as not passing there
+        for (n, town) in [ScreenshotMode.padChiliPick, ScreenshotMode.pizzaPick, ScreenshotMode.amishPick, ScreenshotMode.toledoPick] {
+            let p = try XCTUnwrap(m.places.first { $0.name == n && $0.city == town })
+            let visits = await m.detail(for: p)?.inspection?.visits ?? []
+            XCTAssertFalse(visits.contains { m.band($0.band).isLow }, "\(n) has a visit that doesn't pass, and the iPad shows it")
         }
     }
 

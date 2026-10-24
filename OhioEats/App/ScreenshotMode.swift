@@ -3,7 +3,7 @@ import CoreLocation
 import UIKit
 
 /// `-screenshot <name>` opens one screen with fixed state for App Store screenshots (scripts/capture-screenshots.sh).
-/// Names: home, chili, pizza, pierogi, detail, map, honors, oldest, saved, about.
+/// Names: home, chili, pizza, amish, pierogi, detail, map, honors, oldest, saved, about.
 enum ScreenshotMode {
     /// Debug builds only: an App Store build ignores the launch argument, so no one can reach seeded screens or fake locations.
     static var name: String? {
@@ -38,9 +38,13 @@ enum ScreenshotMode {
         switch name {
         case "chili": open(.chili)
         case "pizza":
-            // from Courthouse Square, so Dayton's square-cut pizzerias are the nearest
-            model.screenshotLocation = CLLocation(latitude: 39.7589, longitude: -84.1916)
+            // from the Statehouse, so Columbus's own pizzerias come first and Dayton's Marion's Piazza follows (not six of one name)
+            model.screenshotLocation = CLLocation(latitude: 39.9612, longitude: -82.9988)
             open(.ohioPizza)
+        case "amish":
+            // from Berlin, in the middle of Holmes County's Amish Country
+            model.screenshotLocation = CLLocation(latitude: 40.5612, longitude: -81.7943)
+            open(.amish)
         case "pierogi":
             // from Public Square, so Cleveland's pierogi kitchens are a short drive
             model.screenshotLocation = CLLocation(latitude: 41.4995, longitude: -81.6937)
@@ -56,11 +60,14 @@ enum ScreenshotMode {
         default: model.tab = .guides; model.selectedGuide = nil
         }
         // iPad shows the place column next to every list, so give each shot a place instead of "Pick a place": a different
-        // honored or hand-checked one per shot.
+        // honored or hand-checked one per shot. That column shows the whole visit history, so the iPad's chili parlor is one whose
+        // every visit was approved (a unit test checks).
         guard UIDevice.current.userInterfaceIdiom == .pad, model.selectedPlace == nil else { return }
         let place: Place? = switch name {
-        case "home", "chili", "map": pick(Self.chiliPick.0, Self.chiliPick.1)
-        case "pizza", "pierogi": pick(Self.barbertonPick.0, Self.barbertonPick.1)
+        case "home", "chili", "map": pick(Self.padChiliPick.0, Self.padChiliPick.1)
+        case "pizza": pick(Self.pizzaPick.0, Self.pizzaPick.1)
+        case "amish": pick(Self.amishPick.0, Self.amishPick.1)
+        case "pierogi": pick(Self.barbertonPick.0, Self.barbertonPick.1)
         case "saved", "oldest", "honors": pick(Self.toledoPick.0, Self.toledoPick.1)
         case "about": nil
         default: pick(Self.chiliPick.0, Self.chiliPick.1)
@@ -72,4 +79,7 @@ enum ScreenshotMode {
     static let chiliPick = ("Camp Washington Chili", "Cincinnati")
     static let toledoPick = ("Tony Packo's", "Toledo")
     static let barbertonPick = ("Belgrade Gardens", "Barberton")
+    static let padChiliPick = ("Pleasant Ridge Chili", "Cincinnati")
+    static let pizzaPick = ("Terita's Pizza", "Columbus")
+    static let amishPick = ("Boyd & Wurthmann Restaurant", "Berlin")
 }
