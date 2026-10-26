@@ -1,10 +1,30 @@
-DerivedData*/
-data/
-site/
+# private: scraped/official raw files, Google 2021 snapshot, pipeline caches, the leaderboard (Google-derived)
+/data/
+/site/
 .venv/
+DerivedData*/
+build/
 *.pkl
+# the private leaderboard generator (it builds the Google-2021 page in site/), as in wi-eats, co-eats and hi-eats
+scripts/make-leaderboard.py
+scripts/leaderboard-base.html
 __pycache__/
+*.pyc
+.DS_Store
 LOCAL.md
+*.log
 playbook/app-store/raw/
 playbook/app-store/iphone/
 playbook/app-store/ipad/
+# secrets and signing material never go public (none exist here today; this keeps an accident out of the repo)
+.env
+.env.*
+*.p8
+*.p12
+*.pem
+*.key
+*.cer
+*.mobileprovision
+*.xcarchive
+*.ipa
+xcuserdata/
