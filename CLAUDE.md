@@ -12,8 +12,11 @@ Products (same three as every state):
   `threeway()`, passes `../state-prompts/icon-style/check.swift`); palette = buckeye candy, chocolate #3B2314 on peanut butter #D9A45B
   (peanut butter only as a fill under chocolate text); header = the flag's swallowtail burgee band. No MICHELIN Guide in Ohio, so no
   Bib Gourmand filter.
-- **Website** (generated `docs/`, never hand-edited): planned at ohio.eatsranked.com (Nick adds Cloudflare `CNAME ohio → nickstrom5.github.io`,
-  DNS only); until then nickstrom5.github.io/ohio-eats/.
+- **Website** (generated `docs/`, never hand-edited): **live 2026-10-26** (Nick's yes) at https://nickstrom5.github.io/ohio-eats/ from the
+  public repo https://github.com/nickstrom5/ohio-eats, Pages from main `/docs`. Planned at ohio.eatsranked.com: Nick adds Cloudflare
+  `CNAME ohio → nickstrom5.github.io` (DNS only), then `OH_DOMAIN=ohio.eatsranked.com` make-site.py and a push. The repo is public:
+  `scripts/make-leaderboard.py`, `site/` and `data/` stay out (`.gitignore`; the generator was removed from history before the first push).
+  `/data/` is anchored on purpose: an unanchored `data/` also hid `docs/data/`, the web app's data.
 
 ## Sources (details, terms and checks: `playbook/12-sources.md`)
 - **No statewide food-license list, no statewide inspection data, no official grade.** Only two cities publish in bulk:
