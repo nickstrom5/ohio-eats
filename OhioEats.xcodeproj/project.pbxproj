@@ -16,7 +16,9 @@
 		43F0E0D1EE111335C0AF8257 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55E805D7E364041E4243034 /* Theme.swift */; };
 		486CE92C7C6EF1953EB6A768 /* OhioEatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A89617763230BAAC16F99E1 /* OhioEatsTests.swift */; };
 		4A2F0C44DFCFE2EDB3A70EEE /* detail-columbus-central.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DE675EB07781C094380B913 /* detail-columbus-central.json */; };
+		5DF8D65C85D383E35CFC9EBF /* DataUpdatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA996AE40D75740AF8AFE97 /* DataUpdatesTests.swift */; };
 		5DFBEB9BBEB91B7A8EC5545F /* detail-cleveland-northeast.json in Resources */ = {isa = PBXBuildFile; fileRef = 767BCE0F7B2A3235CFDB754C /* detail-cleveland-northeast.json */; };
+		62B39FD52330D53BB2EB8B2F /* DataUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB523BD841955C3195A4362 /* DataUpdates.swift */; };
 		6432A32420B65FAEAE177D12 /* detail-akron-canton-youngstown.json in Resources */ = {isa = PBXBuildFile; fileRef = 4686BA5207B7DA10A941ED4C /* detail-akron-canton-youngstown.json */; };
 		67841E800FC0A87C4E6FEC62 /* AppleMaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96552DA23718BCC8682494EB /* AppleMaps.swift */; };
 		67BD00F1C972FC7513CA9697 /* OhioEatsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66ABD5CE7D3E9798A92867AD /* OhioEatsApp.swift */; };
@@ -31,6 +33,7 @@
 		A00E3F6AA2AA3BA7B2CD9333 /* detail-toledo-northwest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D889A671203422E790D7D46 /* detail-toledo-northwest.json */; };
 		A27215DD0E2E09626F66C40B /* SmokeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A8079AA9BEF5570289482B /* SmokeUITests.swift */; };
 		A5FB03FBFCB2CD8E78D0B0C2 /* GuideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C3E09E1FFE72626A67600A /* GuideListView.swift */; };
+		B443A49DF44A61CFA3EFC5AC /* AppDataLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136049A082F67B3DC9DCB901 /* AppDataLayout.swift */; };
 		B72E01126231861F71FC33D1 /* detail-cincinnati-southwest.json in Resources */ = {isa = PBXBuildFile; fileRef = 89927CCEE0B5FE35A1D77F3E /* detail-cincinnati-southwest.json */; };
 		BCEA8835CC584B29C484F316 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C131C472070BF57927CD1E68 /* MapScreen.swift */; };
 		C5C47EC05D1E6D27F804B931 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506F620B7746CC705F62B379 /* Place.swift */; };
@@ -67,6 +70,7 @@
 		02B7875A854629385A9698C9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		05FBBED2D3D982F560454B54 /* OhioEatsUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OhioEatsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		101D59F549FDA3083DDC7C3A /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		136049A082F67B3DC9DCB901 /* AppDataLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataLayout.swift; sourceTree = "<group>"; };
 		1774B9A91705F3E6C088BC70 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		285AE3DB2D2995BA50919A81 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		3C2D82B33320532B3150DE60 /* ScreenshotMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotMode.swift; sourceTree = "<group>"; };
@@ -100,18 +104,22 @@
 		D6FB8F522702E3B9A06C88DA /* detail-southeast-appalachian-ohio.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "detail-southeast-appalachian-ohio.json"; sourceTree = "<group>"; };
 		D7E0F67548FA7F65BF09FFF3 /* CDLA-Permissive-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CDLA-Permissive-2.0.txt"; sourceTree = "<group>"; };
 		D81B184BB8871E2A88F23465 /* Foursquare-NOTICE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Foursquare-NOTICE.txt"; sourceTree = "<group>"; };
+		DDA996AE40D75740AF8AFE97 /* DataUpdatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUpdatesTests.swift; sourceTree = "<group>"; };
 		E02EA8D6BB923BC2495277FC /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
 		E2C3E09E1FFE72626A67600A /* GuideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideListView.swift; sourceTree = "<group>"; };
 		EACB43B105A904191178D393 /* FiltersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersSheet.swift; sourceTree = "<group>"; };
 		EC198531F4333F76C15A0651 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		F268077A5A628062F44B7A46 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		FAB523BD841955C3195A4362 /* DataUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUpdates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		00C57A4C276C9EAED76F4529 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				136049A082F67B3DC9DCB901 /* AppDataLayout.swift */,
 				96552DA23718BCC8682494EB /* AppleMaps.swift */,
+				FAB523BD841955C3195A4362 /* DataUpdates.swift */,
 				285AE3DB2D2995BA50919A81 /* LocationService.swift */,
 				79CE899BCDE1F5720E74E1B9 /* SpotlightIndexer.swift */,
 			);
@@ -132,6 +140,7 @@
 		647C6C2A698D5D4E03B5D91F /* OhioEatsTests */ = {
 			isa = PBXGroup;
 			children = (
+				DDA996AE40D75740AF8AFE97 /* DataUpdatesTests.swift */,
 				7A89617763230BAAC16F99E1 /* OhioEatsTests.swift */,
 				77776796D00B8AA39D229DEA /* PerformanceTests.swift */,
 				872ED03E5689BEDF35F3B3DE /* ShareLinkTests.swift */,
@@ -383,8 +392,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E145672C58141C86CA3D644 /* AboutView.swift in Sources */,
+				B443A49DF44A61CFA3EFC5AC /* AppDataLayout.swift in Sources */,
 				DA6A8D80043B1FA2B0D60EB7 /* AppModel.swift in Sources */,
 				67841E800FC0A87C4E6FEC62 /* AppleMaps.swift in Sources */,
+				62B39FD52330D53BB2EB8B2F /* DataUpdates.swift in Sources */,
 				E16E29B23889442917203522 /* FiltersSheet.swift in Sources */,
 				0577A9B23C05F1119B14B469 /* Guide.swift in Sources */,
 				A5FB03FBFCB2CD8E78D0B0C2 /* GuideListView.swift in Sources */,
@@ -408,6 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF8D65C85D383E35CFC9EBF /* DataUpdatesTests.swift in Sources */,
 				486CE92C7C6EF1953EB6A768 /* OhioEatsTests.swift in Sources */,
 				038FDADE6460B7480F5DEF16 /* PerformanceTests.swift in Sources */,
 				D25EBDB05C6BB8C8F2C81B9F /* ShareLinkTests.swift in Sources */,

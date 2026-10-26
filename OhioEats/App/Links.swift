@@ -6,6 +6,8 @@ import Foundation
 /// addresses to the custom domain once it's set, so a build with them keeps working.
 enum Links {
     static let site = URL(string: "https://nickstrom5.github.io/ohio-eats/")!
+    /// The app's data updates: scripts/publish_app_data.py writes docs/data/app/ (OTA-DATA.md).
+    static let appData = URL(string: site.absoluteString + "data/app/")!
     static let privacy = URL(string: "https://nickstrom5.github.io/ohio-eats/privacy.html")!
     static let terms = URL(string: "https://nickstrom5.github.io/ohio-eats/terms.html")!
     /// the Cincinnati Health Department's inspections (the portal's dataset page) and Columbus Public Health's permit layer
