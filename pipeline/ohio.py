@@ -1431,8 +1431,11 @@ o = o.drop(index=list(drop)).reset_index(drop=True)
 # adult clubs aren't restaurants and don't belong in a 13+ app at all; smoke, vape and cannabis shops are hidden with non-restaurants
 webs = o.get("web", pd.Series("", index=o.index)).fillna("").astype(str) + " " + o.rsite.fillna("").astype(str)
 # "cabaret" alone is no sign (a cabaret can be a supper club or a theatre bar), so only these words count
-adult = o.name_out.str.contains(r"gentlem[ae]n['’]?s club|exotic dancer|strip club|adult entertainment|showclub|baby dolls|"
+# QA 2026-10-29: "Gentlemen Club", "Gentleman's Lounge", topless and bikini bars, a male exotic cabaret and the Gold Club, Peppermint Hippo
+# and Stilettos brands got through, so they count too
+adult = o.name_out.str.contains(r"gentlem[ae]n['’]?s? (?:club|lounge)|exotic dancer|strip club|adult entertainment|showclub|baby dolls|"
                                 r"deja ?vu showgirls|hustler club|penthouse club|\bmen'?s club|bikini bar|showgirls|centerfolds|"
+                                r"\btopless\b|male exotic|\bgold club\b|peppermint hippo|stilettos? cabaret|"
                                 r"cheetahs? (?:lounge|club)|\blipstix\b|\btrumpps\b", case=False, regex=True) \
     | webs.str.contains(r"centerfolds|gentlemensclub|stripclub|babydolls|dejavu|hustlerclub|penthouseclub", case=False, regex=True)
 # most clubs hold a plain Tavern license under a plain trade name ("PT's After Dark", "Glendale Restaurants"), so names alone miss them:

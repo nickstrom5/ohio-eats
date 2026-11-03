@@ -1,8 +1,8 @@
 {
  "schema": 1,
- "version": "2026-10-24.1",
- "records_through": "2026-10-24",
- "published": "2026-10-26T14:19:50Z",
+ "version": "2026-10-29.1",
+ "records_through": "2026-10-29",
+ "published": "2026-10-30T01:59:30Z",
  "min_app_build": 1,
  "files": {
   "detail-akron-canton-youngstown": {
@@ -18,16 +18,16 @@
    "rows": 4063
   },
   "detail-cleveland-northeast": {
-   "path": "detail-cleveland-northeast-7a408036b73c.json",
-   "sha256": "7a408036b73c86b93cbf01652742a44a12542087c248cfc6fb2df46ae3274a3b",
-   "bytes": 410752,
-   "rows": 6154
+   "path": "detail-cleveland-northeast-15d5051e399c.json",
+   "sha256": "15d5051e399c26f6f3fd7c68a29ef7fc4042d5ef6707e903665f9911a679f60d",
+   "bytes": 410715,
+   "rows": 6153
   },
   "detail-columbus-central": {
-   "path": "detail-columbus-central-51b4bc4d67f2.json",
-   "sha256": "51b4bc4d67f276fd897b1babe7aff60900d26e149831b8c7ac856e15602f492d",
-   "bytes": 607852,
-   "rows": 5871
+   "path": "detail-columbus-central-21bad2c574fc.json",
+   "sha256": "21bad2c574fcb34e2b6f4a923fc034ed49248ab23849b4ee07dc5460eb59919f",
+   "bytes": 607737,
+   "rows": 5870
   },
   "detail-dayton-miami-valley": {
    "path": "detail-dayton-miami-valley-a2b9746623a2.json",
@@ -54,16 +54,30 @@
    "rows": 2107
   },
   "places": {
-   "path": "places-0e46de24a77a.json",
-   "sha256": "0e46de24a77a78b9b1d11eb684f553541e11173884f1c7d29587bec1b15c478f",
-   "bytes": 4299956,
-   "rows": 26306
+   "path": "places-e79be54d9f62.json",
+   "sha256": "e79be54d9f62466fbb2454a375aaeae0337bb31883d1715fe194ad5dec0c5ee4",
+   "bytes": 4299600,
+   "rows": 26304
   }
  },
  "counts": {
-  "places": 26306,
+  "places": 26304,
   "files": 9,
-  "bytes": 6468219,
-  "restaurants": 25356
+  "bytes": 6467711,
+  "restaurants": 25354
+ },
+ "previous": {
+  "version": "2026-10-24.1",
+  "files": {
+   "detail-akron-canton-youngstown": "detail-akron-canton-youngstown-d8782d4c45a6.json",
+   "detail-cincinnati-southwest": "detail-cincinnati-southwest-5ff2674592f0.json",
+   "detail-cleveland-northeast": "detail-cleveland-northeast-7a408036b73c.json",
+   "detail-columbus-central": "detail-columbus-central-51b4bc4d67f2.json",
+   "detail-dayton-miami-valley": "detail-dayton-miami-valley-a2b9746623a2.json",
+   "detail-lake-erie-north-central": "detail-lake-erie-north-central-73732ecc3bbc.json",
+   "detail-southeast-appalachian-ohio": "detail-southeast-appalachian-ohio-089a2e9f1bc9.json",
+   "detail-toledo-northwest": "detail-toledo-northwest-6daf64a9a9a3.json",
+   "places": "places-0e46de24a77a.json"
+  }
  }
 }

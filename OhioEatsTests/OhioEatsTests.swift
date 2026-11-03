@@ -214,6 +214,7 @@ final class OhioEatsTests: XCTestCase {
         await m.load()
         XCTAssertTrue(m.isLoaded, m.loadError ?? "")
         XCTAssertEqual(DataGuards.adultVenues(m.places), [], "no strip club under its name")
+        XCTAssertEqual(DataGuards.adultAddresses(m.places), [], "no place at a checked adult-club address")
         XCTAssertEqual(DataGuards.badWebsites(try DataGuards.bundledLinks(m.places)), [], "no directory, Google or news page as a restaurant's website")
         XCTAssertEqual(DataGuards.badNames(m.places), [], "no visible name ending in \u{201C} the\u{201D} or \u{201C} of\u{201D}, or just \u{201C}The\u{201D}")
         XCTAssertEqual(DataGuards.legalNames(m.places), [], "no license holder entity name (\u{201C}… LLC\u{201D}) shown as a place's name")
@@ -225,11 +226,13 @@ final class OhioEatsTests: XCTestCase {
         let raw = try Data(contentsOf: Bundle.main.url(forResource: "places", withExtension: "json")!)
         var file = try XCTUnwrap(JSONSerialization.jsonObject(with: raw) as? [String: Any])
         var places = try XCTUnwrap(file["places"] as? [[String: Any]])
-        let idx = places.indices.filter { places[$0]["v"] == nil }.prefix(6).map { $0 }
+        let idx = places.indices.filter { places[$0]["v"] == nil }.prefix(8).map { $0 }
         places[idx[2]]["n"] = "Larry Flynt's Hustler Club"
         places[idx[3]]["n"] = "Kitchen the"
         places[idx[4]]["n"] = "BUCKEYE HOSPITALITY GROUP LLC"
         places[idx[5]]["n"] = "Tipsy Nails & Spa"
+        places[idx[6]]["n"] = "Peppermint Hippo"
+        places[idx[7]]["a"] = "5411 Bethel Sawmill Ctr"; places[idx[7]]["c"] = (file["cities"] as? [String])?.firstIndex(of: "Columbus")
         file["places"] = places
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("places-broken.json")
         try JSONSerialization.data(withJSONObject: file).write(to: url)
@@ -247,6 +250,8 @@ final class OhioEatsTests: XCTestCase {
         caught(DataGuards.badNames(m.places), 3, "\u{201C}Kitchen the\u{201D}")
         caught(DataGuards.legalNames(m.places), 4, "a license holder's entity name")
         caught(DataGuards.nonRestaurants(m.places), 5, "a nail salon shown as a restaurant")
+        caught(DataGuards.adultVenues(m.places), 6, "a club name the first rule missed (QA 2026-10-29)")
+        caught(DataGuards.adultAddresses(m.places), 7, "a place at Columbus Gold's address")
     }
 }
 
@@ -275,7 +280,15 @@ enum DataGuards {
         return out
     }
 
-    static let adultNames = #"gentlem[ae]n['’]?s club|strip club|exotic dancer|\bmen['’]?s club|rick['’]?s cabaret|xtc cabaret|baby dolls|spearmint rhino|bikini bar|pt['’]?s showclub|showgirls|centerfolds|treasures? gentlem|deja ?vu showgirls|hustler club|penthouse club"#
+    static let adultNames = #"gentlem[ae]n['’]?s? (?:club|lounge)|strip club|exotic dancer|\bmen['’]?s club|rick['’]?s cabaret|xtc cabaret|baby dolls|spearmint rhino|bikini bar|pt['’]?s showclub|showgirls|centerfolds|treasures? gentlem|deja ?vu showgirls|hustler club|penthouse club|\btopless\b|male exotic|\bgold club\b|peppermint hippo|stilettos? cabaret"#
+
+    /// data/research/adult_venues.json's checked club addresses (number and street start), by town
+    static let adultAddresses: [(String, String)] = [("5411 Bethel Sawmill", "Columbus")]
+
+    static func adultAddresses(_ places: [Place]) -> [String] {
+        places.filter { p in adultAddresses.contains { (a, t) in p.city == t && (p.address ?? "").lowercased().hasPrefix(a.lowercased()) } }
+            .map { "\($0.name) [\($0.id)]" }
+    }
 
     /// every license key in the bundled region detail files, by place id
     static func bundledLicenses(_ places: [Place]) throws -> [String: [String]] {
