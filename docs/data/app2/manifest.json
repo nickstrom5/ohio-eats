@@ -1,0 +1,63 @@
+{
+ "schema": 2,
+ "version": "2026-10-29.1",
+ "records_through": "2026-10-29",
+ "min_app_build": 1,
+ "files": {
+  "detail-akron-canton-youngstown": {
+   "path": "detail-akron-canton-youngstown-d8782d4c45a6.json",
+   "sha256": "d8782d4c45a6b9d8bf0b210198be4baf42fe7f4a425ec54bcfa14797a0647d00",
+   "bytes": 187134
+  },
+  "detail-cincinnati-southwest": {
+   "path": "detail-cincinnati-southwest-b963b2438286.json",
+   "sha256": "b963b2438286c1fcc49cfbe9ba442194287e30b38a6b27cf994ffc629cb70e1a",
+   "bytes": 520231
+  },
+  "detail-cleveland-northeast": {
+   "path": "detail-cleveland-northeast-15d5051e399c.json",
+   "sha256": "15d5051e399c26f6f3fd7c68a29ef7fc4042d5ef6707e903665f9911a679f60d",
+   "bytes": 410715
+  },
+  "detail-columbus-central": {
+   "path": "detail-columbus-central-873902dbf551.json",
+   "sha256": "873902dbf55149793624e3fa6a7069f1bce1777f07498a24e976549f3c5703df",
+   "bytes": 622152
+  },
+  "detail-dayton-miami-valley": {
+   "path": "detail-dayton-miami-valley-a2b9746623a2.json",
+   "sha256": "a2b9746623a2d27fb5f0d29353eed4d1de5265966bdac030b1bc5fa3c4a1972c",
+   "bytes": 174249
+  },
+  "detail-lake-erie-north-central": {
+   "path": "detail-lake-erie-north-central-73732ecc3bbc.json",
+   "sha256": "73732ecc3bbcd2cef0bbc184117be5eda101d0001ecfcdd0d19bdeda47304292",
+   "bytes": 84741
+  },
+  "detail-southeast-appalachian-ohio": {
+   "path": "detail-southeast-appalachian-ohio-089a2e9f1bc9.json",
+   "sha256": "089a2e9f1bc99050698df710f3e3d4e791d972afd2af71f4ee4fa06319850bf0",
+   "bytes": 73298
+  },
+  "detail-toledo-northwest": {
+   "path": "detail-toledo-northwest-6daf64a9a9a3.json",
+   "sha256": "6daf64a9a9a3475ef2eef432e974439d6729f76aeceb37bdaa721f8420a867b8",
+   "bytes": 139606
+  },
+  "places": {
+   "path": "places-8050f56fe332.json",
+   "sha256": "8050f56fe3322cc0e67cb628c2362d7c6474e8375fe10cca70c365d84c0992d6",
+   "bytes": 4457381
+  },
+  "state": {
+   "path": "state-fb424f90966a.json",
+   "sha256": "fb424f90966af010906ecf3289729af6c6ce48f99690f77cfa72aa236bd2fa8c",
+   "bytes": 20595
+  }
+ },
+ "counts": {
+  "places": 26304,
+  "restaurants": 25354,
+  "bytes": 6690102
+ }
+}
